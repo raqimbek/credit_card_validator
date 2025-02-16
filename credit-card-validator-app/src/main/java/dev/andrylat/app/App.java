@@ -12,6 +12,7 @@ public class App {
         var scanner = new Scanner(System.in);
 
         System.out.println("Hello. Enter card number for validation:");
+
         var cardNum = new ArrayList<>(Arrays.stream(scanner.nextLine().split(""))
                          .filter(App::isDigit)
                          .map(Integer::valueOf)
@@ -19,57 +20,55 @@ public class App {
 
         if (cardNum.size() < 16) {
           errors.append("-> Length should be 16 symbols\n");
-        }
+          errors.append("-> Payment System can't be determined\n");
+        } else {
+            var everyOtherNumList = new ArrayList<>(IntStream.range(0, cardNum.size())
+                    .filter(n -> n % 2 == 0)
+                    .mapToObj(cardNum::get)
+                    .toList());
 
-        var everyOtherNumList = new ArrayList<>(IntStream.range(0, cardNum.size())
-                .filter(n -> n % 2 == 0)
-                .mapToObj(cardNum::get)
-                .toList());
+            var numsWithTwoDigits = everyOtherNumList.stream()
+                    .map(n -> n*2)
+                    .filter(n -> n >= 10 && n < 100)
+                    .map(n -> n/2)
+                    .toList();
 
-        var numsWithTwoDigits = everyOtherNumList.stream()
-                .map(n -> n*2)
-                .filter(n -> n >= 10 && n < 100)
-                .map(n -> n/2)
-                .toList();
-
-
-        for (var i = 0; i < cardNum.size(); i++) {
-
-            if (everyOtherNumList.contains(cardNum.get(i))) {
-                cardNum.remove(cardNum.get(i));
+            for (var i = 0; i < cardNum.size(); i++) {
+                if (everyOtherNumList.contains(cardNum.get(i))) {
+                    cardNum.remove(cardNum.get(i));
+                }
             }
-        }
 
-
-        for (var i = 0; i < everyOtherNumList.size(); i++) {
-            if (numsWithTwoDigits.contains(everyOtherNumList.get(i))) {
-                everyOtherNumList.remove(everyOtherNumList.get(i));
-                i--;
+            for (var i = 0; i < everyOtherNumList.size(); i++) {
+                if (numsWithTwoDigits.contains(everyOtherNumList.get(i))) {
+                    everyOtherNumList.remove(everyOtherNumList.get(i));
+                    i--;
+                }
             }
-        }
 
-        var sumOfNumsWithTwoDigits = numsWithTwoDigits.stream()
-                .map(n -> n*2)
-                .map(String::valueOf)
-                .map(s -> Arrays.stream(s.split(""))
-                    .map(Integer::valueOf)
+            var sumOfNumsWithTwoDigits = numsWithTwoDigits.stream()
+                    .map(n -> n*2)
+                    .map(String::valueOf)
+                    .map(s -> Arrays.stream(s.split(""))
+                        .map(Integer::valueOf)
+                        .mapToInt(Integer::intValue)
+                        .sum()
+                    )
                     .mapToInt(Integer::intValue)
-                    .sum()
-                )
+                    .sum();
+
+            var sumOfEveryOtherNum = everyOtherNumList.stream()
+                .map(n->n*2)
                 .mapToInt(Integer::intValue)
                 .sum();
 
-        var sumOfEveryOtherNum = everyOtherNumList.stream()
-            .map(n->n*2)
-            .mapToInt(Integer::intValue)
-            .sum();
+            var cardNumSum = cardNum.stream().mapToInt(Integer::intValue).sum();
 
-        var cardNumSum = cardNum.stream().mapToInt(Integer::intValue).sum();
+            var sum = cardNumSum + sumOfNumsWithTwoDigits + sumOfEveryOtherNum;
 
-        var sum = cardNumSum + sumOfNumsWithTwoDigits + sumOfEveryOtherNum;
-
-        if (sum % 10 != 0) {
-            errors.append("-> Payment System can't be determined\n");
+            if (sum % 10 != 0) {
+                errors.append("-> Payment System can't be determined\n");
+            }
         }
 
         if (errors.length() > 0) {
@@ -87,7 +86,12 @@ public class App {
         try {
             Integer.parseInt(s); 
         } catch (NumberFormatException e) {
-            errors.append("-> Number should contain only digits\n");
+            var msg = "-> Number should contain only digits\n";
+
+            if (!errors.toString().contains(msg)) {
+                errors.append(msg);
+            }
+
             return false;
         }
 
