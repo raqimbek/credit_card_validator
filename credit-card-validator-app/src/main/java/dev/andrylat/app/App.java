@@ -68,7 +68,7 @@ public class App {
 
         var sum = cardNumSum + sumOfNumsWithTwoDigits + sumOfEveryOtherNum;
 
-        if (sum % 2 != 0) {
+        if (sum % 10 != 0) {
             errors.append("-> Payment System can't be determined\n");
         }
 
