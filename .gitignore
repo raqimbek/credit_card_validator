@@ -1,3 +1,7 @@
+# vim swap file
+*.swp
+*.swo
+
 # Compiled class file
 *.class
 
