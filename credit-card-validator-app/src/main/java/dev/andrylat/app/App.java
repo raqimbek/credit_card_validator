@@ -6,21 +6,45 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class App {
-    private static StringBuilder errors = new StringBuilder();
+    private StringBuilder errors;
+    private Scanner scanner;
+
+    public App() {
+        System.out.println("Hello. Enter card number for validation:");
+        errors = new StringBuilder();
+        scanner = new Scanner(System.in);
+    }
 
     public static void main(String[] args) {
-        var scanner = new Scanner(System.in);
+        new App().process().print();
+    }
 
-        System.out.println("Hello. Enter card number for validation:");
+    private App process() {
+        var input = scanner.nextLine();
+        validate(input);
 
-        var cardNum = new ArrayList<>(Arrays.stream(scanner.nextLine().split(""))
-                         .filter(App::isDigit)
+        var cardNum = getCardNum(input);
+        validate(cardNum);
+
+        return this;
+    }
+
+    private ArrayList<Integer> getCardNum(String s) {
+        return new ArrayList<>(Arrays.stream(s.split(""))
+                         .filter(this::isDigit)
                          .map(Integer::valueOf)
                          .toList());
+    }
 
+    private void validate(String input) {
+        if (input.length() < 16) {
+            errors.append("-> Length should be 16 symbols\n");
+        }
+    }
+
+    private void validate(ArrayList<Integer> cardNum) {
         if (cardNum.size() < 16) {
-          errors.append("-> Length should be 16 symbols\n");
-          errors.append("-> Payment System can't be determined\n");
+            errors.append("-> Payment System can't be determined\n");
         } else {
             var everyOtherNumList = new ArrayList<>(IntStream.range(0, cardNum.size())
                     .filter(n -> n % 2 == 0)
@@ -70,7 +94,9 @@ public class App {
                 errors.append("-> Payment System can't be determined\n");
             }
         }
+    }
 
+    private void print() {
         if (errors.length() > 0) {
             System.out.println("Card number is invalid.");
             System.out.println("Errors:");
@@ -80,7 +106,7 @@ public class App {
         }
     }
 
-    private static boolean isDigit(String s) {
+    private boolean isDigit(String s) {
         if (s.equals(" ")) return false;
 
         try {
