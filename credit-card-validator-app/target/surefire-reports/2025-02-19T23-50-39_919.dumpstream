@@ -1,0 +1,5 @@
+# Created at 2025-02-19T23:50:40.120
+Boot Manifest-JAR contains absolute paths in classpath 'D:\d\l\j\mentor\tasks\task_1\credit_card_validator\credit-card-validator-app\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

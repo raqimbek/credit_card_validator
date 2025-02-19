@@ -36,13 +36,15 @@ public class App {
                          .toList());
     }
 
-    private void validate(String input) {
+    public void validate(String input) {
+        input = String.join("", input.split(" "));
+
         if (input.length() < 16) {
             errors.append("-> Length should be 16 symbols\n");
         }
     }
 
-    private void validate(ArrayList<Integer> cardNum) {
+    public void validate(ArrayList<Integer> cardNum) {
         if (cardNum.size() < 16) {
             errors.append("-> Payment System can't be determined\n");
         } else {
@@ -122,5 +124,9 @@ public class App {
         }
 
         return true;
+    }
+
+    public StringBuilder getErrors() {
+      return errors;
     }
 }

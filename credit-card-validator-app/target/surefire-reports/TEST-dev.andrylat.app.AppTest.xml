@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.1" name="dev.andrylat.app.AppTest" time="0.083" tests="10" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="22"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="D:\d\l\j\mentor\tasks\task_1\credit_card_validator\credit-card-validator-app\target\test-classes;D:\d\l\j\mentor\tasks\task_1\credit_card_validator\credit-card-validator-app\target\classes;C:\Users\Freeman\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.0\junit-jupiter-api-5.11.0.jar;C:\Users\Freeman\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Freeman\.m2\repository\org\junit\platform\junit-platform-commons\1.11.0\junit-platform-commons-1.11.0.jar;C:\Users\Freeman\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Freeman\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.0\junit-jupiter-params-5.11.0.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Qyzylorda"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="22"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="A:\Program Files\Java\jdk-22\bin"/>
+    <property name="sun.java.command" value="C:\Users\Freeman\AppData\Local\Temp\surefire15291369644684642174\surefirebooter-20250220002959768_3.jar C:\Users\Freeman\AppData\Local\Temp\surefire15291369644684642174 2025-02-20T00-29-59_611-jvmRun1 surefire-20250220002959768_1tmp surefire_0-20250220002959768_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="D:\d\l\j\mentor\tasks\task_1\credit_card_validator\credit-card-validator-app\target\test-classes;D:\d\l\j\mentor\tasks\task_1\credit_card_validator\credit-card-validator-app\target\classes;C:\Users\Freeman\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.0\junit-jupiter-api-5.11.0.jar;C:\Users\Freeman\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Freeman\.m2\repository\org\junit\platform\junit-platform-commons\1.11.0\junit-platform-commons-1.11.0.jar;C:\Users\Freeman\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Freeman\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.0\junit-jupiter-params-5.11.0.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Freeman"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-03-19"/>
+    <property name="java.home" value="A:\Program Files\Java\jdk-22"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="D:\d\l\j\mentor\tasks\task_1\credit_card_validator\credit-card-validator-app"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\Freeman\AppData\Local\Temp\surefire15291369644684642174\surefirebooter-20250220002959768_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="22+36-2370"/>
+    <property name="user.name" value="Freeman"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\Freeman\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\Freeman\AppData\Local\Temp\"/>
+    <property name="java.version" value="22"/>
+    <property name="user.dir" value="D:\d\l\j\mentor\tasks\task_1\credit_card_validator\credit-card-validator-app"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="A:\Program Files\Java\jdk-22\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;A:\Program Files (x86)\Vim\vim90;A:\msys64;A:\Program Files (x86)\GnuWin32\bin;A:\Program Files\Git\cmd;A:\kotlinc\bin;C:\Program Files (x86)\Groovy\bin;A:\Program Files\PostgreSQL\15\bin;C:\Program Files\Docker\Docker\resources\bin;A:\Program Files\Jboss\bin;A:\Program Files\Maven\3.9.6\bin;A:\Program Files\Gradle\8.7\bin;A:\Program Files\spring\boot\bin;A:\Program Files\Java\jdk-22\bin;A:\xampp\php;C:\ProgramData\ComposerSetup\bin;A:\Program Files\nodejs\;C:\ffmpeg\bin;A:\Python\390\;A:\Python\390\Scripts\;C:\Users\Freeman\scoop\apps\swift\current\Developer\Toolchains\unknown-Asserts-development.xctoolchain\usr\bin;C:\Users\Freeman\scoop\apps\swift\current\Swift\runtime-development\usr\bin;C:\Users\Freeman\scoop\apps\python\current\Scripts;C:\Users\Freeman\scoop\apps\python\current;C:\Users\Freeman\scoop\shims;C:\Users\Freeman\AppData\Local\Microsoft\WindowsApps;C:\Users\Freeman\.dotnet\tools;A:\Python\312\;A:\Python\312\Scripts\;A:\ghcup\bin;A:\Program Files\Neovim\bin;C:\Users\Freeman\AppData\Roaming\Composer\vendor\bin;C:\Users\Freeman\AppData\Roaming\npm;A:\Program Files\JetBrains\IntelliJ IDEA 2024.1.4\bin;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="22+36-2370"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="66.0"/>
+  </properties>
+  <testcase name="shouldReturnStringBuilderThatContainsOneErrorDescribingLength" classname="dev.andrylat.app.AppTest" time="0.026">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnStringBuilderThatContainsOneErrorDescribingPaymentSystem" classname="dev.andrylat.app.AppTest" time="0.007">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnFalse" classname="dev.andrylat.app.AppTest" time="0.001">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnEmptyList" classname="dev.andrylat.app.AppTest" time="0.001">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnStringBuilderThatContainsTwoErrors" classname="dev.andrylat.app.AppTest" time="0.002">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnListThatContains16Ints" classname="dev.andrylat.app.AppTest" time="0.002">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnTrue" classname="dev.andrylat.app.AppTest" time="0.002">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnEmptyStringBuilder" classname="dev.andrylat.app.AppTest" time="0.002">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnListThatContains3Ints" classname="dev.andrylat.app.AppTest" time="0.001">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+  <testcase name="shouldReturnStringBuilderThatContainsThreeErrors" classname="dev.andrylat.app.AppTest" time="0.001">
+    <system-out><![CDATA[Hello. Enter card number for validation:
+]]></system-out>
+  </testcase>
+</testsuite>
