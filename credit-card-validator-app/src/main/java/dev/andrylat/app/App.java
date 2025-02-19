@@ -19,7 +19,7 @@ public class App {
         new App().process().print();
     }
 
-    private App process() {
+    public App process() {
         var input = scanner.nextLine();
         validate(input);
 
@@ -96,7 +96,7 @@ public class App {
         }
     }
 
-    private void print() {
+    public void print() {
         if (errors.length() > 0) {
             System.out.println("Card number is invalid.");
             System.out.println("Errors:");
