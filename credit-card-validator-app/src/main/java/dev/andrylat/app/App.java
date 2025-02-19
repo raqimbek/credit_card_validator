@@ -19,7 +19,7 @@ public class App {
         new App().process().print();
     }
 
-    private App process() {
+    public App process() {
         var input = scanner.nextLine();
         validate(input);
 
@@ -29,7 +29,7 @@ public class App {
         return this;
     }
 
-    private ArrayList<Integer> getCardNum(String s) {
+    public ArrayList<Integer> getCardNum(String s) {
         return new ArrayList<>(Arrays.stream(s.split(""))
                          .filter(this::isDigit)
                          .map(Integer::valueOf)
@@ -96,7 +96,7 @@ public class App {
         }
     }
 
-    private void print() {
+    public void print() {
         if (errors.length() > 0) {
             System.out.println("Card number is invalid.");
             System.out.println("Errors:");
@@ -106,7 +106,7 @@ public class App {
         }
     }
 
-    private boolean isDigit(String s) {
+    public boolean isDigit(String s) {
         if (s.equals(" ")) return false;
 
         try {
