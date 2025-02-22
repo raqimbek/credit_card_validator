@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 public class App {
     private StringBuilder errors;
     private Scanner scanner;
+    private String brand = "";
 
     public App() {
         System.out.println("Hello. Enter card number for validation:");
@@ -21,12 +22,28 @@ public class App {
 
     public App process() {
         var input = scanner.nextLine();
+        
         validate(input);
 
         var cardNum = getCardNum(input);
+        determineBrandByNumber(cardNum);
         validate(cardNum);
 
         return this;
+    }
+
+    private void determineBrandByNumber(ArrayList<Integer> cardNum) {
+        /*
+           for later improvements:
+
+           I could create an enum with all card brands,
+           and each card brand would have a method to validate
+           if the the given number equals to the brand's possible number
+           the return type of the method would be boolean
+
+        */
+
+        brand = cardNum.get(0) == 4 ? "VISA" : cardNum.get(0) == 5 && IntStream.range(0,6).anyMatch(n -> n == cardNum.get(1)) ? "MASTERCARD" : "";
     }
 
     private ArrayList<Integer> getCardNum(String s) {
@@ -43,7 +60,7 @@ public class App {
     }
 
     private void validate(ArrayList<Integer> cardNum) {
-        if (cardNum.size() < 16) {
+        if (cardNum.size() < 16 || brand.length() == 0) {
             errors.append("-> Payment System can't be determined\n");
         } else {
             var everyOtherNumList = new ArrayList<>(IntStream.range(0, cardNum.size())
@@ -93,6 +110,9 @@ public class App {
             if (sum % 10 != 0) {
                 errors.append("-> Payment System can't be determined\n");
             }
+
+
+            
         }
     }
 
@@ -102,7 +122,11 @@ public class App {
             System.out.println("Errors:");
             System.out.println(errors.toString());
         } else {
-            System.out.println("Card is valid.");
+            System.out.println(
+                new StringBuilder("Card is valid. Payment System is ")
+                    .append(brand)
+                    .toString()
+            );
         }
     }
 
