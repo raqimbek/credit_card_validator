@@ -6,21 +6,62 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class App {
-    private static StringBuilder errors = new StringBuilder();
+    private StringBuilder errors;
+    private Scanner scanner;
+    private String brand = "";
+
+    public App() {
+        System.out.println("Hello. Enter card number for validation:");
+        errors = new StringBuilder();
+        scanner = new Scanner(System.in);
+    }
 
     public static void main(String[] args) {
-        var scanner = new Scanner(System.in);
+        new App().process().print();
+    }
 
-        System.out.println("Hello. Enter card number for validation:");
+    public App process() {
+        var input = scanner.nextLine();
+        
+        validate(input);
 
-        var cardNum = new ArrayList<>(Arrays.stream(scanner.nextLine().split(""))
-                         .filter(App::isDigit)
+        var cardNum = getCardNum(input);
+        determineBrandByNumber(cardNum);
+        validate(cardNum);
+
+        return this;
+    }
+
+    private void determineBrandByNumber(ArrayList<Integer> cardNum) {
+        /*
+           for later improvements:
+
+           I could create an enum with all card brands,
+           and each card brand would have a method to validate
+           if the the given number equals to the brand's possible number
+           the return type of the method would be boolean
+
+        */
+
+        brand = cardNum.get(0) == 4 ? "VISA" : cardNum.get(0) == 5 && IntStream.range(0,6).anyMatch(n -> n == cardNum.get(1)) ? "MASTERCARD" : "";
+    }
+
+    private ArrayList<Integer> getCardNum(String s) {
+        return new ArrayList<>(Arrays.stream(s.split(""))
+                         .filter(this::isDigit)
                          .map(Integer::valueOf)
                          .toList());
+    }
 
-        if (cardNum.size() < 16) {
-          errors.append("-> Length should be 16 symbols\n");
-          errors.append("-> Payment System can't be determined\n");
+    private void validate(String input) {
+        if (input.length() < 16) {
+            errors.append("-> Length should be 16 symbols\n");
+        }
+    }
+
+    private void validate(ArrayList<Integer> cardNum) {
+        if (cardNum.size() < 16 || brand.length() == 0) {
+            errors.append("-> Payment System can't be determined\n");
         } else {
             var everyOtherNumList = new ArrayList<>(IntStream.range(0, cardNum.size())
                     .filter(n -> n % 2 == 0)
@@ -69,18 +110,27 @@ public class App {
             if (sum % 10 != 0) {
                 errors.append("-> Payment System can't be determined\n");
             }
-        }
 
+
+            
+        }
+    }
+
+    public void print() {
         if (errors.length() > 0) {
             System.out.println("Card number is invalid.");
             System.out.println("Errors:");
             System.out.println(errors.toString());
         } else {
-            System.out.println("Card is valid.");
+            System.out.println(
+                new StringBuilder("Card is valid. Payment System is ")
+                    .append(brand)
+                    .toString()
+            );
         }
     }
 
-    private static boolean isDigit(String s) {
+    private boolean isDigit(String s) {
         if (s.equals(" ")) return false;
 
         try {
