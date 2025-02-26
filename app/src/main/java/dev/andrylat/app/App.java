@@ -55,6 +55,7 @@ public class App {
 
     private List<Integer> getCardNumber(String s) {
         return new ArrayList<>(Arrays.stream(s.split(""))
+                         .filter(c -> !c.equals(" "))
                          .filter(this::isDigit)
                          .map(Integer::valueOf)
                          .toList());
@@ -137,8 +138,6 @@ public class App {
     }
 
     private boolean isDigit(String s) {
-        if (s.equals(" ")) return false;
-
         try {
             Integer.parseInt(s); 
         } catch (NumberFormatException e) {
