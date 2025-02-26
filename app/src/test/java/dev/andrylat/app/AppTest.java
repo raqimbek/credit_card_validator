@@ -15,7 +15,7 @@ public class AppTest {
 -> Payment System can't be determined
 """;
 
-        new App().process();
+        var app = new App().process();
         assertEquals(app.getErrors().trim(), expected.trim());
     }
 
@@ -27,7 +27,7 @@ public class AppTest {
 -> Payment System can't be determined
 """;
 
-        new App().process();
+        var app = new App().process();
         assertEquals(app.getErrors().trim(), expected.trim());
     }
 }
