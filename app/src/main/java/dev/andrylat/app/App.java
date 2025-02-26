@@ -9,6 +9,7 @@ public class App {
     private StringBuilder errors;
     private Scanner scanner;
     private String brand = "";
+    private final int validCreditCardNumberLength = 16;
 
     public App() {
         System.out.println("Hello. Enter card number for validation:");
@@ -59,13 +60,15 @@ public class App {
     }
 
     private void validate(String input) {
-        if (input.length() < 16) {
-            errors.append("-> Length should be 16 symbols\n");
+        if (input.length() < validCreditCardNumberLength) {
+            errors.append("-> Length should be ")
+                  .append(validCreditCardNumberLength)
+                  .append(" symbols\n");
         }
     }
 
     private void validate(ArrayList<Integer> cardNum) {
-        if (cardNum.size() < 16 || brand.length() == 0) {
+        if (cardNum.size() < validCreditCardNumberLength || brand.length() == 0) {
             errors.append("-> Payment System can't be determined\n");
         } else {
             var everyOtherNumList = new ArrayList<>(IntStream.range(0, cardNum.size())
