@@ -9,7 +9,7 @@ public class App {
     private StringBuilder errors;
     private Scanner scanner;
     private String brand = "";
-    private final int validCreditCardNumberLength = 16;
+    private static final int validCreditCardNumberLength = 16;
 
     public App() {
         System.out.println("Hello. Enter card number for validation:");
