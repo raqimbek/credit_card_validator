@@ -152,4 +152,8 @@ public class App {
 
         return true;
     }
+
+    public String getErrors() {
+        return errors.toString();
+    }
 }
