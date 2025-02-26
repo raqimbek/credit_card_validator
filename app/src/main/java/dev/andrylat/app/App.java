@@ -27,14 +27,14 @@ public class App {
         
         validate(input);
 
-        var cardNum = getCardNum(input);
-        determineBrandByNumber(cardNum);
-        validate(cardNum);
+        var cardNumber = getCardNumber(input);
+        determineBrandByNumber(cardNumber);
+        validate(cardNumber);
 
         return this;
     }
 
-    private void determineBrandByNumber(ArrayList<Integer> cardNum) {
+    private void determineBrandByNumber(List<Integer> cardNumber) {
         /*
            for later improvements:
 
@@ -45,15 +45,15 @@ public class App {
 
         */
 
-        switch (cardNum.get(0)) {
-            4: brand = "VISA";
+        switch (cardNumber.get(0)) {
+            case 4: brand = "VISA";
             break;
-            5: brand = IntStream.range(0,6).anyMatch(n -> n == cardNum.get(1)) ? "MASTERCARD" : "";
+            case 5: brand = IntStream.range(0,6).anyMatch(n -> n == cardNumber.get(1)) ? "MASTERCARD" : "";
             break;
         }
     }
 
-    private List<Integer> getCardNum(String s) {
+    private List<Integer> getCardNumber(String s) {
         return new ArrayList<>(Arrays.stream(s.split(""))
                          .filter(this::isDigit)
                          .map(Integer::valueOf)
@@ -68,35 +68,35 @@ public class App {
         }
     }
 
-    private void validate(List<Integer> cardNum) {
-        if (cardNum.size() < validCreditCardNumberLength || brand.length() == 0) {
+    private void validate(List<Integer> cardNumber) {
+        if (cardNumber.size() < validCreditCardNumberLength || brand.length() == 0) {
             errors.append("-> Payment System can't be determined\n");
         } else {
-            var everyOtherNumList = new ArrayList<>(IntStream.range(0, cardNum.size())
+            var everyOtherNumberList = new ArrayList<>(IntStream.range(0, cardNumber.size())
                     .filter(n -> n % 2 == 0)
-                    .mapToObj(cardNum::get)
+                    .mapToObj(cardNumber::get)
                     .toList());
 
-            var numsWithTwoDigits = everyOtherNumList.stream()
+            var numbersWithTwoDigits = everyOtherNumberList.stream()
                     .map(n -> n*2)
                     .filter(n -> n >= 10 && n < 100)
                     .map(n -> n/2)
                     .toList();
 
-            for (var i = 0; i < cardNum.size(); i++) {
-                if (everyOtherNumList.contains(cardNum.get(i))) {
-                    cardNum.remove(cardNum.get(i));
+            for (var i = 0; i < cardNumber.size(); i++) {
+                if (everyOtherNumberList.contains(cardNumber.get(i))) {
+                    cardNumber.remove(cardNumber.get(i));
                 }
             }
 
-            for (var i = 0; i < everyOtherNumList.size(); i++) {
-                if (numsWithTwoDigits.contains(everyOtherNumList.get(i))) {
-                    everyOtherNumList.remove(everyOtherNumList.get(i));
+            for (var i = 0; i < everyOtherNumberList.size(); i++) {
+                if (numbersWithTwoDigits.contains(everyOtherNumberList.get(i))) {
+                    everyOtherNumberList.remove(everyOtherNumberList.get(i));
                     i--;
                 }
             }
 
-            var sumOfNumsWithTwoDigits = numsWithTwoDigits.stream()
+            var sumOfNumbersWithTwoDigits = numbersWithTwoDigits.stream()
                     .map(n -> n*2)
                     .map(String::valueOf)
                     .map(s -> Arrays.stream(s.split(""))
@@ -107,21 +107,18 @@ public class App {
                     .mapToInt(Integer::intValue)
                     .sum();
 
-            var sumOfEveryOtherNum = everyOtherNumList.stream()
+            var sumOfEveryOtherNumber = everyOtherNumberList.stream()
                 .map(n->n*2)
                 .mapToInt(Integer::intValue)
                 .sum();
 
-            var cardNumSum = cardNum.stream().mapToInt(Integer::intValue).sum();
+            var cardNumberSum = cardNumber.stream().mapToInt(Integer::intValue).sum();
 
-            var sum = cardNumSum + sumOfNumsWithTwoDigits + sumOfEveryOtherNum;
+            var sum = cardNumberSum + sumOfNumbersWithTwoDigits + sumOfEveryOtherNumber;
 
             if (sum % 10 != 0) {
                 errors.append("-> Payment System can't be determined\n");
             }
-
-
-            
         }
     }
 
