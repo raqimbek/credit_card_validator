@@ -38,12 +38,17 @@ public class App {
 
            I could create an enum with all card brands,
            and each card brand would have a method to validate
-           if the the given number equals to the brand's possible number
+           if the given number equals to the brand's possible number
            the return type of the method would be boolean
 
         */
 
-        brand = cardNum.get(0) == 4 ? "VISA" : cardNum.get(0) == 5 && IntStream.range(0,6).anyMatch(n -> n == cardNum.get(1)) ? "MASTERCARD" : "";
+        switch (cardNum.get(0)) {
+            4: brand = "VISA";
+            break;
+            5: brand = IntStream.range(0,6).anyMatch(n -> n == cardNum.get(1)) ? "MASTERCARD" : "";
+            break;
+        }
     }
 
     private ArrayList<Integer> getCardNum(String s) {
