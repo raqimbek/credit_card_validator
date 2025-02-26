@@ -2,6 +2,7 @@ package dev.andrylat.app;
 
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
@@ -52,7 +53,7 @@ public class App {
         }
     }
 
-    private ArrayList<Integer> getCardNum(String s) {
+    private List<Integer> getCardNum(String s) {
         return new ArrayList<>(Arrays.stream(s.split(""))
                          .filter(this::isDigit)
                          .map(Integer::valueOf)
@@ -67,7 +68,7 @@ public class App {
         }
     }
 
-    private void validate(ArrayList<Integer> cardNum) {
+    private void validate(List<Integer> cardNum) {
         if (cardNum.size() < validCreditCardNumberLength || brand.length() == 0) {
             errors.append("-> Payment System can't be determined\n");
         } else {
