@@ -8,7 +8,6 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>credit-card-validator-app</name>
-  <!-- FIXME change it to the project's website -->
   <url>https://andrylat.dev</url>
 
   <properties>
@@ -69,8 +68,8 @@
           <configuration>
             <archive>
               <manifest>
-		<mainClass>dev.andrylat.app.App</mainClass>
-	      </manifest>
+		        <mainClass>dev.andrylat.app.App</mainClass>
+	          </manifest>
             </archive>
           </configuration>
         </plugin>
