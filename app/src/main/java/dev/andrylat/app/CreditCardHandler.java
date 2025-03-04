@@ -1,26 +1,34 @@
 package dev.andrylat.app;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 
-public class CreditCardValidator {
+public class CreditCardHandler {
     private StringBuilder errors;
     private static final int VALID_CREDIT_CARD_NUMBER_LENGTH = 16;
 
-    public CreditCardValidator() {
+    public CreditCardHandler() {
         errors = new StringBuilder();
     }
 
-    public void validate(String input) {
+    public boolean isValid(String input) {
         if (input.length() < VALID_CREDIT_CARD_NUMBER_LENGTH) {
             errors.append("-> Length should be ")
                   .append(VALID_CREDIT_CARD_NUMBER_LENGTH)
                   .append(" symbols\n");
+            
+            return false;
         }
+        
+        return true;
     }
 
-    private void validate(List<Integer> cardNumber) {
+    private boolean isValid(List<Integer> cardNumber) {
         if (cardNumber.size() < VALID_CREDIT_CARD_NUMBER_LENGTH || brand.length() == 0) {
             errors.append("-> Payment System can't be determined\n");
+            return false;
         } else {
             var everyOtherNumberList = new ArrayList<>(IntStream.range(0, cardNumber.size())
                     .filter(n -> n % 2 == 0)
@@ -68,11 +76,42 @@ public class CreditCardValidator {
 
             if (sum % 10 != 0) {
                 errors.append("-> Payment System can't be determined\n");
+                return false;
             }
+            
+            return true;
         }
     }
 
+    private List<Integer> getCardNumber(String s) {
+        return new ArrayList<>(Arrays.stream(s.split(""))
+                         .filter(c -> !c.equals(" "))
+                         .filter(this::isDigit)
+                         .map(Integer::valueOf)
+                         .toList());
+    }
+    
+    private boolean isDigit(String s) {
+        try {
+            Integer.parseInt(s); 
+        } catch (NumberFormatException e) {
+            var msg = "-> Number should contain only digits\n";
+
+            if (!errors.toString().contains(msg)) {
+                errors.append(msg);
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+    
     public String getErrors() {
         return errors.toString();
+    }
+
+    public List<Integer> convertCreditCardNumberToList(String s) {
+    	return getCardNumber(s);
     }
 }

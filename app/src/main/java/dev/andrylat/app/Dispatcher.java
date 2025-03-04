@@ -17,8 +17,8 @@ public class Dispatcher {
         return input == null ? "" : input;
     }
 
-    public void print(Runnable printer) {
-        printer.run();
+    public void print(Supplier<String> messageSupplier) {
+    	System.out.println(messageSupplier.get());
 
         if (errors.length() > 0) {
             System.out.println("Card number is invalid.");

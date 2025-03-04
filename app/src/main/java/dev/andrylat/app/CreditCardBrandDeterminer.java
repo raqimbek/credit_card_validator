@@ -1,20 +1,27 @@
 package dev.andrylat.app;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class CreditCardBrandDeterminer {
-    private String brand = "";
-    private CreditCardValidator validator;
+    private CreditCardHandler creditCardHandler;
+    
+    public CreditCardBrandDeterminer() {}
 
     public CreditCardBrandDeterminer(String input) {
-        validator = new CreditCardValidator();
-        
+    	creditCardHandler = new CreditCardHandler();
     }
 
-    public void determineCreditCardBrandByNumber(String input) {
-        var cardNumber = getCardNumber(input);
-        determineBrandByNumber(cardNumber);
+    public String determineCreditCardBrandByNumber(String input) {
+    	if (creditCardHandler.isValid(input)) {
+    		return determineBrandByNumber(creditCardHandler.convertCreditCardNumberToList(input));
+    	} else {
+    		var errorMessage = "";
+    		return errorMessage;
+    	}
     }
 
-    private void determineBrandByNumber(List<Integer> cardNumber) {
+    private String determineBrandByNumber(List<Integer> cardNumber) {
         /*
            for later improvements:
 
@@ -24,6 +31,8 @@ public class CreditCardBrandDeterminer {
            the return type of the method would be boolean
 
         */
+    	
+    	var brand = "";
 
         switch (cardNumber.get(0)) {
             case 4:
@@ -35,29 +44,7 @@ public class CreditCardBrandDeterminer {
                             ? "MASTERCARD" : "";
                 break;
         }
-    }
-
-    private List<Integer> getCardNumber(String s) {
-        return new ArrayList<>(Arrays.stream(s.split(""))
-                         .filter(c -> !c.equals(" "))
-                         .filter(this::isDigit)
-                         .map(Integer::valueOf)
-                         .toList());
-    }
-
-    private boolean isDigit(String s) {
-        try {
-            Integer.parseInt(s); 
-        } catch (NumberFormatException e) {
-            var msg = "-> Number should contain only digits\n";
-
-            if (!errors.toString().contains(msg)) {
-                errors.append(msg);
-            }
-
-            return false;
-        }
-
-        return true;
+        
+        return brand;
     }
 }
