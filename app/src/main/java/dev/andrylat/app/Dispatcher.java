@@ -19,17 +19,5 @@ public class Dispatcher {
 
     public void print(Supplier<String> messageSupplier) {
     	System.out.println(messageSupplier.get());
-
-        if (errors.length() > 0) {
-            System.out.println("Card number is invalid.");
-            System.out.println("Errors:");
-            System.out.println(errors.toString());
-        } else {
-            System.out.println(
-                new StringBuilder("Card is valid. Payment System is ")
-                    .append(brand)
-                    .toString()
-            );
-        }
     }
 }

@@ -4,24 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class CreditCardBrandDeterminer {
-    private CreditCardHandler creditCardHandler;
-    
-    public CreditCardBrandDeterminer() {}
-
-    public CreditCardBrandDeterminer(String input) {
-    	creditCardHandler = new CreditCardHandler();
-    }
-
-    public String determineCreditCardBrandByNumber(String input) {
-    	if (creditCardHandler.isValid(input)) {
-    		return determineBrandByNumber(creditCardHandler.convertCreditCardNumberToList(input));
-    	} else {
-    		var errorMessage = "";
-    		return errorMessage;
-    	}
-    }
-
-    private String determineBrandByNumber(List<Integer> cardNumber) {
+    String determineCreditCardBrandByNumber(List<Integer> cardNumber) {
         /*
            for later improvements:
 

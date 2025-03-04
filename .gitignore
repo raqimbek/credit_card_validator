@@ -53,3 +53,8 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# Eclipse IDE files
+.project
+app/.settings
+app/bin

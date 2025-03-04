@@ -6,29 +6,39 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class CreditCardHandler {
-    private StringBuilder errors;
+    private StringBuilder errors = new StringBuilder();
+    private StringBuilder message = new StringBuilder();
+    private StringBuilder brand = new StringBuilder();
+    private CreditCardBrandDeterminer brandDeterminer = new CreditCardBrandDeterminer();
     private static final int VALID_CREDIT_CARD_NUMBER_LENGTH = 16;
-
-    public CreditCardHandler() {
-        errors = new StringBuilder();
+    
+    public String check(String input) {
+    	validate(input);
+    	
+    	if (errors.length() > 0) {
+    		message.append("Card number is invalid.\n")
+                   .append("Errors:\n")
+    		       .append(errors.toString());
+    	} else {
+    		message.append("Card is valid. Payment System is ")
+    		       .append(brand);
+    	}
+    	
+    	return message.toString();
     }
 
-    public boolean isValid(String input) {
+    private void validate(String input) {
         if (input.length() < VALID_CREDIT_CARD_NUMBER_LENGTH) {
             errors.append("-> Length should be ")
                   .append(VALID_CREDIT_CARD_NUMBER_LENGTH)
                   .append(" symbols\n");
-            
-            return false;
         }
         
-        return true;
-    }
+        var cardNumber = getCardNumber(input);
+        brand.append(brandDeterminer.determineCreditCardBrandByNumber(cardNumber));
 
-    private boolean isValid(List<Integer> cardNumber) {
         if (cardNumber.size() < VALID_CREDIT_CARD_NUMBER_LENGTH || brand.length() == 0) {
             errors.append("-> Payment System can't be determined\n");
-            return false;
         } else {
             var everyOtherNumberList = new ArrayList<>(IntStream.range(0, cardNumber.size())
                     .filter(n -> n % 2 == 0)
@@ -76,10 +86,7 @@ public class CreditCardHandler {
 
             if (sum % 10 != 0) {
                 errors.append("-> Payment System can't be determined\n");
-                return false;
             }
-            
-            return true;
         }
     }
 
@@ -105,13 +112,5 @@ public class CreditCardHandler {
         }
 
         return true;
-    }
-    
-    public String getErrors() {
-        return errors.toString();
-    }
-
-    public List<Integer> convertCreditCardNumberToList(String s) {
-    	return getCardNumber(s);
     }
 }
