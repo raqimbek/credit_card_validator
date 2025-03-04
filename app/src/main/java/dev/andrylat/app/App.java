@@ -15,7 +15,7 @@ public class App {
     	
         dispatcher.prompt(() -> "Hello. Enter card number for validation:");
         dispatcher.read(() -> scanner.nextLine());        
-        dispatcher.print(() -> creditCardHandler.check(dispatcher.getInput()));
+        dispatcher.print(() -> creditCardHandler.checkCreditCardNumber(dispatcher.getInput()));
         
         scanner.close();
         

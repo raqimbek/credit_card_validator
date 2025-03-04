@@ -12,8 +12,8 @@ public class CreditCardHandler {
     private StringBuilder brand = new StringBuilder();
     private CreditCardBrandDeterminer brandDeterminer = new CreditCardBrandDeterminer();
     
-    public String check(String input) {
-    	validate(input);
+    public String checkCreditCardNumber(String input) {
+    	validateCreditCardNumber(input);
     	
     	if (errors.length() > 0) {
     		message.append("Card number is invalid.\n")
@@ -27,7 +27,7 @@ public class CreditCardHandler {
     	return message.toString();
     }
 
-    private void validate(String input) {
+    private void validateCreditCardNumber(String input) {
         if (input.length() < VALID_CREDIT_CARD_NUMBER_LENGTH) {
             errors.append("-> Length should be ")
                   .append(VALID_CREDIT_CARD_NUMBER_LENGTH)
