@@ -24,16 +24,19 @@ application {
     mainClass = 'dev.andrylat.app.App'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-run {
-    standardInput = System.in
-}
-
 jar {
   manifest {
     attributes 'Main-Class': application.mainClass
   }
 }
+
+
+run {
+    standardInput = System.in
+}
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
