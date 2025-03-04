@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class CreditCardHandler {
+	private static final int VALID_CREDIT_CARD_NUMBER_LENGTH = 16;
     private StringBuilder errors = new StringBuilder();
     private StringBuilder message = new StringBuilder();
     private StringBuilder brand = new StringBuilder();
     private CreditCardBrandDeterminer brandDeterminer = new CreditCardBrandDeterminer();
-    private static final int VALID_CREDIT_CARD_NUMBER_LENGTH = 16;
     
     public String check(String input) {
     	validate(input);

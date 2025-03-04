@@ -1,10 +1,5 @@
 package dev.andrylat.app;
 
-/*
-import Dispatcher;
-import CreditCardBrandDeterminer;
-import CreditCardValidator;
-*/
 import java.util.Scanner;
 
 public class App {
