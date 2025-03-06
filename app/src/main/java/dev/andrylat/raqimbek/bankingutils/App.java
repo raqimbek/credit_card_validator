@@ -1,4 +1,4 @@
-package dev.andrylat.app;
+package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class App {
     	
         dispatcher.prompt(() -> "Hello. Enter card number for validation:");
         dispatcher.read(() -> scanner.nextLine());        
-        dispatcher.print(() -> creditCardHandler.checkCreditCardNumber(dispatcher.getInput()));
+        dispatcher.print(() -> creditCardHandler.checkCardNumber(dispatcher.getInput()));
         
         scanner.close();
         

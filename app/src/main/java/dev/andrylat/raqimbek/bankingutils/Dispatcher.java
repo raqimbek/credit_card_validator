@@ -1,4 +1,4 @@
-package dev.andrylat.app;
+package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.function.Supplier;
 

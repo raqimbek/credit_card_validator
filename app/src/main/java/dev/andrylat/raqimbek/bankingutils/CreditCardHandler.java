@@ -1,4 +1,4 @@
-package dev.andrylat.app;
+package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +12,7 @@ public class CreditCardHandler {
     private StringBuilder brand = new StringBuilder();
     private CreditCardBrandDeterminer brandDeterminer = new CreditCardBrandDeterminer();
     
-    public String checkCreditCardNumber(String input) {
+    public String checkCardNumber(String input) {
     	validateCreditCardNumber(input);
     	
     	if (errors.length() > 0) {
