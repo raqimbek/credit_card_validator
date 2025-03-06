@@ -7,15 +7,18 @@ import java.util.stream.IntStream;
 
 public class CardValidator {
 	private static final int VALID_CREDIT_CARD_NUMBER_LENGTH = 16;
-    private StringBuilder errors = new StringBuilder();
+    private List<String> errors = new ArrayList<>();
     private StringBuilder message = new StringBuilder();
     private StringBuilder brand = new StringBuilder();
     private PaymentSystemDeterminer brandDeterminer = new PaymentSystemDeterminer();
     
-    public String checkCardNumber(String input) {
-    	validateCreditCardNumber(input);
+    public CardValidationInfo checkCardNumber(String input) {
+    	validateCardNumber(input);
     	
-    	if (errors.length() > 0) {
+    	var isValid = false;
+    	
+    	if (errors.size() == 0) {
+    		isValid = true;
     		message.append("Card number is invalid.\n")
                    .append("Errors:\n")
     		       .append(errors.toString());
@@ -24,21 +27,22 @@ public class CardValidator {
     		       .append(brand);
     	}
     	
-    	return message.toString();
+    	return new CardValidationInfo(isValid, errors);
     }
 
-    private void validateCreditCardNumber(String input) {
+    private void validateCardNumber(String input) {
         if (input.length() < VALID_CREDIT_CARD_NUMBER_LENGTH) {
-            errors.append("-> Length should be ")
-                  .append(VALID_CREDIT_CARD_NUMBER_LENGTH)
-                  .append(" symbols\n");
+            errors.add(new StringBuilder("-> Length should be ")
+            		.append(VALID_CREDIT_CARD_NUMBER_LENGTH)
+            		.append(" symbols\n")
+            		.toString());
         }
         
         var cardNumber = getCardNumber(input);
         brand.append(brandDeterminer.determineCreditCardBrandByNumber(cardNumber));
 
         if (cardNumber.size() < VALID_CREDIT_CARD_NUMBER_LENGTH || brand.length() == 0) {
-            errors.append("-> Payment System can't be determined\n");
+            errors.add("-> Payment System can't be determined\n");
         } else {
             var everyOtherNumberList = new ArrayList<>(IntStream.range(0, cardNumber.size())
                     .filter(n -> n % 2 == 0)
@@ -85,7 +89,7 @@ public class CardValidator {
             var sum = cardNumberSum + sumOfNumbersWithTwoDigits + sumOfEveryOtherNumber;
 
             if (sum % 10 != 0) {
-                errors.append("-> Payment System can't be determined\n");
+                errors.add("-> Payment System can't be determined\n");
             }
         }
     }
@@ -105,7 +109,7 @@ public class CardValidator {
             var msg = "-> Number should contain only digits\n";
 
             if (!errors.toString().contains(msg)) {
-                errors.append(msg);
+                errors.add(msg);
             }
 
             return false;

@@ -15,7 +15,7 @@ public class BankingUtilsApp {
     	
     	userInteraction.write("Hello. Enter card number for validation:", System.out::println);
     	userInteraction.read(() -> scanner.nextLine());        
-    	userInteraction.write(cardValidator.checkCardNumber(userInteraction.getInput()), System.out::println);
+    	userInteraction.write(cardValidator.checkCardNumber(userInteraction.getInput()).errors.toString(), System.out::println);
         
         scanner.close();
         
