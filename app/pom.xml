@@ -68,7 +68,7 @@
           <configuration>
             <archive>
               <manifest>
-		        <mainClass>dev.andrylat.raqimbek.bankingutils.App</mainClass>
+		        <mainClass>dev.andrylat.raqimbek.bankingutils.BankingUtilsApp</mainClass>
 	          </manifest>
             </archive>
           </configuration>

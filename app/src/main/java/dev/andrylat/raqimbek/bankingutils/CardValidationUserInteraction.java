@@ -1,12 +1,13 @@
 package dev.andrylat.raqimbek.bankingutils;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class Dispatcher {
+public class CardValidationUserInteraction {
     private String input;
 
-    public void prompt(Supplier<String> messageSupplier) {
-        System.out.println(messageSupplier.get());
+    public void write(String message, Consumer<String> messageConsumer) {
+        messageConsumer.accept(message);
     }
 
     public void read(Supplier<String> inputSupplier) {
@@ -15,9 +16,5 @@ public class Dispatcher {
 
     public String getInput() {
         return input == null ? "" : input;
-    }
-
-    public void print(Supplier<String> messageSupplier) {
-    	System.out.println(messageSupplier.get());
     }
 }

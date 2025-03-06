@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
-public class CreditCardHandler {
+public class CardValidator {
 	private static final int VALID_CREDIT_CARD_NUMBER_LENGTH = 16;
     private StringBuilder errors = new StringBuilder();
     private StringBuilder message = new StringBuilder();
     private StringBuilder brand = new StringBuilder();
-    private CreditCardBrandDeterminer brandDeterminer = new CreditCardBrandDeterminer();
+    private PaymentSystemDeterminer brandDeterminer = new PaymentSystemDeterminer();
     
     public String checkCardNumber(String input) {
     	validateCreditCardNumber(input);

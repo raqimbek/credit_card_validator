@@ -3,9 +3,9 @@ package dev.andrylat.raqimbek.bankingutils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-public class AppTest {
+public class BankingUtilsAppTest {
 	
-	CreditCardHandler creditCardHandler = new CreditCardHandler();
+	CardValidator creditCardHandler = new CardValidator();
 
     @Test
     public void shouldReturnStringContainingTwoErrors() {

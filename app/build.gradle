@@ -21,7 +21,7 @@ java {
 }
 
 application {
-    mainClass = 'dev.andrylat.raqimbek.bankingutils.App'
+    mainClass = 'dev.andrylat.raqimbek.bankingutils.BankingUtilsApp'
 }
 
 jar {

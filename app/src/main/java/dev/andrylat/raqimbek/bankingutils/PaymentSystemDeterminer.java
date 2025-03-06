@@ -3,7 +3,7 @@ package dev.andrylat.raqimbek.bankingutils;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class CreditCardBrandDeterminer {
+public class PaymentSystemDeterminer {
     String determineCreditCardBrandByNumber(List<Integer> cardNumber) {
         /*
            for later improvements:
