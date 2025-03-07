@@ -14,10 +14,12 @@ public enum PaymentSystem {
 	
 	private List<Integer> prefixList = new ArrayList<>();
 
-	private PaymentSystem(int prefix) {
-		prefixList.add(prefix);
+	private PaymentSystem(int... prefixes) {
+		for (var prefix : prefixes) {
+			prefixList.add(prefix);
+		}
 	}
-	
+
 	private PaymentSystem(String prefixRange) {
 		if (prefixRange.indexOf("-") != -1) {
 			var rangeEnds = prefixRange.split("-");
@@ -28,11 +30,6 @@ public enum PaymentSystem {
 				prefixList.add(prefix);
 			});
 		}
-	}
-	
-	private PaymentSystem(int prefix1, int prefix2) {
-		prefixList.add(prefix1);
-		prefixList.add(prefix2);
 	}
 	
 	public List<Integer> getPrefixes() {
