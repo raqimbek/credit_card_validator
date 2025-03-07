@@ -1,9 +1,6 @@
 package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.stream.IntStream;
-import java.util.stream.Collectors;
-import java.util.Set;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,10 +12,10 @@ public enum PaymentSystem {
     JCB(35),
     AMERICAN_EXPRESS(34,37);
 	
-	private Set<Integer> prefixSet = new HashSet<>();
+	private List<Integer> prefixList = new ArrayList<>();
 
 	private PaymentSystem(int prefix) {
-		prefixSet.add(prefix);
+		prefixList.add(prefix);
 	}
 	
 	private PaymentSystem(String prefixRange) {
@@ -28,26 +25,26 @@ public enum PaymentSystem {
 					Integer.valueOf(rangeEnds[0]),
 					Integer.valueOf(rangeEnds[1])+1)
 			.forEach(prefix -> {
-				prefixSet.add(prefix);
+				prefixList.add(prefix);
 			});
 		}
 	}
 	
 	private PaymentSystem(int prefix1, int prefix2) {
-		prefixSet.add(prefix1);
-		prefixSet.add(prefix2);
+		prefixList.add(prefix1);
+		prefixList.add(prefix2);
 	}
 	
-	public Set<Integer> getPrefixes() {
-		return prefixSet;
+	public List<Integer> getPrefixes() {
+		return prefixList;
 	}
 	
-	public Set<List<Integer>> getPrefixesAsList() {
-		return prefixSet.stream()
+	public List<List<Integer>> getPrefixesAsLists() {
+		return prefixList.stream()
 				.map(n -> List.of(n.toString().split(""))
 						.stream()
 						.map(Integer::valueOf)
 						.toList())
-				.collect(Collectors.toSet());
+				.toList();
 	}
 }
