@@ -2,6 +2,7 @@ package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
@@ -28,6 +29,26 @@ public class CardValidator {
     	}
     	
     	return new CardValidationInfo(isValid, errors);
+    }
+    
+    private CardValidationInfo checkCardNumberPrefix(List<Integer> cardNumber) {
+    	var paymentSystemArray = PaymentSystem.values();
+    	var errors = new ArrayList<String>();
+    	
+    	for (PaymentSystem paymentSystem : paymentSystemArray) {
+    		var prefix = paymentSystem.getPrefixesAsLists();
+    		
+    		for (var i = 0; i < prefix.size(); i++) {
+    			for (var j = 0; j < prefix.get(i).size(); j++) {
+					if (cardNumber.get(j) == prefix.get(i).get(j)) {
+						return new CardValidationInfo(true, errors);
+					}
+    			}
+    		}
+    	}
+
+    	errors.add("Payment System prefix is not valid");
+    	return new CardValidationInfo(false, errors);
     }
 
     private void validateCardNumber(String input) {
