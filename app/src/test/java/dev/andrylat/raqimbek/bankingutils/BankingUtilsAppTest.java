@@ -16,7 +16,7 @@ Errors:
 -> Payment System can't be determined
 """;  
 
-        assertEquals(creditCardHandler.checkCardNumber("1234").trim(), expected.trim());
+        assertEquals(creditCardHandler.checkCardNumber("1234").getErrors().toString().trim(), expected.trim());
     }
 
     @Test
@@ -29,7 +29,7 @@ Errors:
 -> Payment System can't be determined
 """;
 
-        assertEquals(creditCardHandler.checkCardNumber("12o1").trim(), expected.trim());
+        assertEquals(creditCardHandler.checkCardNumber("12o1").getErrors().toString().trim(), expected.trim());
     }
     
     @Test
@@ -40,13 +40,13 @@ Errors:
 -> Payment System can't be determined
 """;
 
-        assertEquals(creditCardHandler.checkCardNumber("5425 2334 3010 9923").trim(), expected.trim());
+        assertEquals(creditCardHandler.checkCardNumber("5425 2334 3010 9923").getErrors().toString().trim(), expected.trim());
     }
     
     @Test
     public void shouldReturnStringContainingCreditCardBrandName() {
         var expected = "Card is valid. Payment System is MASTERCARD";
 
-        assertEquals(creditCardHandler.checkCardNumber("5425 2334 3010 9903").trim(), expected.trim());
+        assertEquals(creditCardHandler.checkCardNumber("5425 2334 3010 9903").getErrors().toString().trim(), expected.trim());
     }
 }
