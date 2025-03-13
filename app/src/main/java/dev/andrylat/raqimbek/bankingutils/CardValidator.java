@@ -31,26 +31,11 @@ public class CardValidator {
     private CardValidator conformsWithPaymentSystem(List<Integer> cardNumber) {
         var paymentSystemArray = PaymentSystem.values();
         var errors = new ArrayList<String>();
+        PaymentSystem matchedPaymentSystem;
 
         for (PaymentSystem paymentSystem : paymentSystemArray) {
             var prefixMatchCounter = 0;
             var prefixes = paymentSystem.getPrefixesAsLists();
-            var maxLength = paymentSystem.getCardMaxLength();
-            var minLength = paymentSystem.getCardMinLength();
-
-            if (cardNumber.size() < minLength) {
-                errors.add(new StringBuilder("Length should be at least ")
-                        .append(minLength)
-                        .append(" symbols")
-                        .toString());
-            }
-            
-            if (cardNumber.size() > maxLength) {
-                errors.add(new StringBuilder("Length should be at most ")
-                        .append(maxLength)
-                        .append(" symbols")
-                        .toString());
-            }
 
             for (var i = 0; i < prefixes.size(); i++) {
                 var prefixPartMatchCounter = 0;
@@ -66,7 +51,27 @@ public class CardValidator {
                 }
             }
 
-            if (prefixMatchCounter != 1) {
+            if (prefixMatchCounter == 1) {
+                matchedPaymentSystem = paymentSystem;
+                var minLength = matchedPaymentSystem.getCardMinLength();
+                var maxLength = matchedPaymentSystem.getCardMaxLength();
+
+                if (cardNumber.size() < minLength) {
+                    errors.add(
+                            new StringBuilder("Length should be at least ")
+                                .append(minLength)
+                                .append(" symbols")
+                                .toString());
+                }
+
+                if (cardNumber.size() > maxLength) {
+                    errors.add(
+                            new StringBuilder("Length should be at most ")
+                                .append(maxLength)
+                                .append(" symbols")
+                                .toString());
+                }
+            } else {
                 errors.add("Payment System can't be determined");
             }
         }
