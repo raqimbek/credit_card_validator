@@ -13,7 +13,7 @@ public class CardValidator {
         
         var isValid = false;
 
-        determineCardNumberAsList(input)
+        parseCardNumber(input)
         .conformsWithPaymentSystem()
         .checkControlSum();
 
@@ -117,7 +117,7 @@ public class CardValidator {
         return this;
     }
 
-    private CardValidator determineCardNumberAsList(String s) {
+    private CardValidator parseCardNumber(String s) {
         cardNumberAsList.addAll(Arrays.stream(s.split("")).filter(c -> !c.equals(" ")).filter(this::isDigit)
                 .map(Integer::valueOf).toList());
         return this;
