@@ -2,10 +2,12 @@ package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class CardValidator {
+    private PaymentSystem paymentSystem;
     private List<String> errors = new ArrayList<>();
     private List<Integer> cardNumberAsList = new ArrayList<>();
 
@@ -21,12 +23,11 @@ public class CardValidator {
             isValid = true;
         }
 
-        return new CardValidationInfo(isValid, errors);
+        return new CardValidationInfo(isValid, errors, Optional.ofNullable(paymentSystem));
     }
 
     private CardValidator conformsWithPaymentSystem() {
         var paymentSystemArray = PaymentSystem.values();
-        PaymentSystem matchedPaymentSystem;
 
         for (PaymentSystem paymentSystem : paymentSystemArray) {
             var prefixMatchCounter = 0;
@@ -47,9 +48,9 @@ public class CardValidator {
             }
 
             if (prefixMatchCounter == 1) {
-                matchedPaymentSystem = paymentSystem;
-                var minLength = matchedPaymentSystem.getCardMinLength();
-                var maxLength = matchedPaymentSystem.getCardMaxLength();
+                this.paymentSystem = paymentSystem;
+                var minLength = paymentSystem.getCardMinLength();
+                var maxLength = paymentSystem.getCardMaxLength();
 
                 if (cardNumberAsList.size() < minLength) {
                     this.errors.add(
