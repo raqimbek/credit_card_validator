@@ -73,7 +73,6 @@ public class CardValidator {
 
         if (errors.size() > 0) {
             this.errors.addAll(errors);
-            return this;
         }
         
         return this;
@@ -110,7 +109,7 @@ public class CardValidator {
         var sum = cardNumberSum + sumOfNumbersWithTwoDigits + sumOfEveryOtherNumber;
 
         if (sum % 10 != 0) {
-            errors.add("-> Card Number is not valid");
+            errors.add("Card Number is not valid");
         }
 
         return this;
