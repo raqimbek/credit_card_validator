@@ -67,7 +67,7 @@ public class CardValidator {
             }
 
             if (prefixMatchCounter != 1) {
-                errors.add("Payment System prefix is not valid");
+                errors.add("Payment System can't be determined");
             }
         }
 
@@ -77,7 +77,10 @@ public class CardValidator {
         }
         
         return this;
-        
+    }
+
+    private CardValidator checkControlSum(List<Integer> cardNumber) {
+        return this;
     }
 
     private void validateCardNumber(String input) {
