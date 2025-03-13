@@ -28,7 +28,7 @@ public class CardValidator {
         return new CardValidationInfo(isValid, errors);
     }
 
-    private CardValidationInfo conformsWithPaymentSystem(List<Integer> cardNumber) {
+    private CardValidator conformsWithPaymentSystem(List<Integer> cardNumber) {
         var paymentSystemArray = PaymentSystem.values();
         var errors = new ArrayList<String>();
 
@@ -72,10 +72,11 @@ public class CardValidator {
         }
 
         if (errors.size() > 0) {
-            return new CardValidationInfo(false, errors);
+            this.errors.addAll(errors);
+            return this;
         }
         
-        return new CardValidationInfo(true, errors);
+        return this;
         
     }
 
