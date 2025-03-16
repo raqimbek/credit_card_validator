@@ -3,6 +3,7 @@ package dev.andrylat.raqimbek.bankingutils;
 public class BankingUtilsApp {
     private static CardValidationUserInteraction userInteraction = new CardValidationUserInteraction();
     private static CardValidator cardValidator = new CardValidator();
+    private static PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
 
     public static void main(String[] args) {
         run();
@@ -11,8 +12,15 @@ public class BankingUtilsApp {
     public static void run() {
     	userInteraction.write("Hello. Enter card number for validation:", System.out);
     	userInteraction.read();        
-    	userInteraction.write(cardValidator
-    	        .checkCardNumber(userInteraction.getInput())
-    	        .errors.toString(), System.out);
+
+    	var cardValidationInfo = cardValidator.checkCardNumber(userInteraction.getInput());
+
+    	if (cardValidationInfo.getErrors().size() > 0) {
+    	    userInteraction.write(cardValidationInfo.errors.toString(), System.out);
+    	} else {
+    	    userInteraction.write(paymentSystemDeterminer
+    	            .determinePaymentSystemByCardNumber(userInteraction.getInput())
+    	            .get().toString(), System.out);
+    	}
     }
 }
