@@ -1,33 +1,16 @@
 package dev.andrylat.raqimbek.bankingutils;
 
-import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Arrays;
+import java.util.Optional;
 
 public class PaymentSystemDeterminer {
-    String determineCreditCardBrandByNumber(List<Integer> cardNumber) {
-        /*
-           for later improvements:
-
-           I could create an enum with all card brands,
-           and each card brand would have a method to validate
-           if the given number equals to the brand's possible number
-           the return type of the method would be boolean
-
-        */
-    	
-    	var brand = "";
-
-        switch (cardNumber.get(0)) {
-            case 4:
-                brand = "VISA";
-                break;
-            case 5:
-                brand = IntStream.range(0,6)
-                            .anyMatch(n -> n == cardNumber.get(1))
-                            ? "MASTERCARD" : "";
-                break;
-        }
-        
-        return brand;
+    Optional<PaymentSystem> determinePaymentSystemByCardNumber(String cardNumber) {
+        return Arrays.stream(PaymentSystem.values())
+            .filter(p -> p.getPrefixes()
+                        .stream()
+                        .anyMatch(prefix ->
+                            cardNumber.startsWith(prefix.toString())
+                        ))
+            .findFirst();
     }
 }
