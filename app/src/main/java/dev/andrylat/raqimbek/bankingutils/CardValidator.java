@@ -2,80 +2,71 @@ package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public class CardValidator {
-    private PaymentSystem paymentSystem;
-    private List<String> errors = new ArrayList<>();
-    private List<Integer> cardNumberAsList = new ArrayList<>();
-
     public CardValidationInfo checkCardNumber(String input) {
-        
+        var errors = new ArrayList<String>();
         var isValid = false;
+        
+        if (!containsOnlyDigits(input)) {
+            errors.add("Card Number must contain only digits");
+        }
+        
+        for (PaymentSystem paymentSystem : PaymentSystem.values()) {
+            if (!hasValidPrefix(input, paymentSystem)) {
+                errors.add("Payment System can't be determined");
+            }
 
-        parseCardNumber(input)
-        .conformsWithPaymentSystem()
-        .checkControlSum();
+            if (!hasValidLength(input, paymentSystem)) {
+                if (paymentSystem.getCardMinLength() > 0) {
+                    errors.add(new StringBuilder("Length should be between ")
+                                .append(paymentSystem.getCardMinLength())
+                                .append(" and ")
+                                .append(paymentSystem.getCardMaxLength())
+                                .append(" symbols")
+                                .toString());
+                } else {
+                    errors.add(new StringBuilder("Length should be at most ")
+                                .append(paymentSystem.getCardMaxLength())
+                                .append(" symbols")
+                                .toString());
+                }
+            }
+        }
+        
+        if (!passesLuhnTest(parseCardNumber(input))) {
+            errors.add("Card Number is not valid");
+        }
 
         if (errors.size() == 0) {
             isValid = true;
         }
 
-        return new CardValidationInfo(isValid, errors, Optional.ofNullable(paymentSystem));
+        return new CardValidationInfo(isValid, errors);
     }
+    
+    private boolean hasValidPrefix(String cardNumber, PaymentSystem paymentSystem) {
+        var prefixes = paymentSystem.getPrefixes();
 
-    private CardValidator conformsWithPaymentSystem() {
-        var paymentSystemArray = PaymentSystem.values();
+            return prefixes.stream()
+                .anyMatch(p -> cardNumber.startsWith(p.toString()));
+    }
+    
+    private boolean hasValidLength(String cardNumber, PaymentSystem paymentSystem) {
+        var minLength = paymentSystem.getCardMinLength();
+        var maxLength = paymentSystem.getCardMaxLength();
 
-        for (PaymentSystem paymentSystem : paymentSystemArray) {
-            var prefixMatchCounter = 0;
-            var prefixes = paymentSystem.getPrefixesAsLists();
-
-            for (var i = 0; i < prefixes.size(); i++) {
-                var prefixPartMatchCounter = 0;
-
-                for (var j = 0; j < prefixes.get(i).size(); j++) {
-                    if (cardNumberAsList.get(j) == prefixes.get(i).get(j)) {
-                        prefixPartMatchCounter++;
-                    }
-                }
-
-                if (prefixPartMatchCounter == prefixes.get(i).size()) {
-                    prefixMatchCounter++;
-                }
-            }
-
-            if (prefixMatchCounter == 1) {
-                this.paymentSystem = paymentSystem;
-                var minLength = paymentSystem.getCardMinLength();
-                var maxLength = paymentSystem.getCardMaxLength();
-
-                if (cardNumberAsList.size() < minLength) {
-                    this.errors.add(
-                            new StringBuilder("Length should be at least ")
-                                .append(minLength)
-                                .append(" symbols")
-                                .toString());
-                }
-
-                if (cardNumberAsList.size() > maxLength) {
-                    this.errors.add(
-                            new StringBuilder("Length should be at most ")
-                                .append(maxLength)
-                                .append(" symbols")
-                                .toString());
-                }
-            } else {
-                this.errors.add("Payment System can't be determined");
-            }
+        if (cardNumber.length() < minLength
+                && cardNumber.length() > maxLength) {
+            return false;
         }
-        
-        return this;
+
+        return true;
     }
 
-    private CardValidator checkControlSum() {
+    private boolean passesLuhnTest(List<Integer> cardNumberAsList) {
         var everyOtherNumberList = new ArrayList<>(
                 IntStream.range(0, cardNumberAsList.size())
                     .filter(n -> n % 2 == 0)
@@ -112,31 +103,22 @@ public class CardValidator {
         var sum = cardNumberSum + sumOfNumbersWithTwoDigits + sumOfEveryOtherNumber;
 
         if (sum % 10 != 0) {
-            errors.add("Card Number is not valid");
-        }
-
-        return this;
-    }
-
-    private CardValidator parseCardNumber(String s) {
-        cardNumberAsList.addAll(Arrays.stream(s.split("")).filter(c -> !c.equals(" ")).filter(this::isDigit)
-                .map(Integer::valueOf).toList());
-        return this;
-    }
-
-    private boolean isDigit(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            var msg = "-> Number should contain only digits\n";
-
-            if (!errors.toString().contains(msg)) {
-                errors.add(msg);
-            }
-
-            return false;
+           return false;
         }
 
         return true;
+    }
+
+    private List<Integer> parseCardNumber(String str) {
+        return Arrays.stream(str.split(""))
+                .map(Integer::valueOf)
+                .toList();
+    }
+    
+    private boolean containsOnlyDigits(String str) {
+        return Arrays.stream(str.split(""))
+                .map(s -> s.charAt(0))
+                .filter(c -> !c.equals(' '))
+                .allMatch(Character::isDigit);
     }
 }
