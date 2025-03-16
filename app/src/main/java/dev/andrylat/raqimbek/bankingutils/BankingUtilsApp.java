@@ -1,24 +1,18 @@
 package dev.andrylat.raqimbek.bankingutils;
 
-import java.util.Scanner;
-
 public class BankingUtilsApp {
-    private CardValidationUserInteraction userInteraction = new CardValidationUserInteraction();
-    private CardValidator cardValidator = new CardValidator();
+    private static CardValidationUserInteraction userInteraction = new CardValidationUserInteraction();
+    private static CardValidator cardValidator = new CardValidator();
 
     public static void main(String[] args) {
-        new BankingUtilsApp().run();
+        run();
     }
 
-    public BankingUtilsApp run() {
-    	var scanner = new Scanner(System.in);
-    	
-    	userInteraction.write("Hello. Enter card number for validation:", System.out::println);
-    	userInteraction.read(() -> scanner.nextLine());        
-    	userInteraction.write(cardValidator.checkCardNumber(userInteraction.getInput()).errors.toString(), System.out::println);
-        
-        scanner.close();
-        
-        return this;
+    public static void run() {
+    	userInteraction.write("Hello. Enter card number for validation:", System.out);
+    	userInteraction.read();        
+    	userInteraction.write(cardValidator
+    	        .checkCardNumber(userInteraction.getInput())
+    	        .errors.toString(), System.out);
     }
 }
