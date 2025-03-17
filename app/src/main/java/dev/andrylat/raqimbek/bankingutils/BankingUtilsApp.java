@@ -13,27 +13,22 @@ public class BankingUtilsApp {
     }
 
     private static void run() {
-    	userInteraction.write(false, List.of("Hello. Enter card number for validation:"));
+        userInteraction.write(false, List.of("Hello. Enter card number for validation:"));
 
-    	var userInput = userInteraction.read();        
-    	var cardValidationInfo = cardValidator.checkCardNumber(userInput);
+        var userInput = userInteraction.read();
+        var cardValidationInfo = cardValidator.checkCardNumber(userInput);
 
-    	if (!cardValidationInfo.getIsValid()) {
-    	    var errors = cardValidationInfo.getErrors();
+        if (!cardValidationInfo.getIsValid()) {
+            var errors = cardValidationInfo.getErrors();
 
-    	    userInteraction.write(true, errors);
-    	} else {
-    	    var paymentSystem = paymentSystemDeterminer
-    	            .determinePaymentSystemByCardNumber(userInput)
-    	            .get();
+            userInteraction.write(true, errors);
+        } else {
+            var paymentSystem = paymentSystemDeterminer.determinePaymentSystemByCardNumber(userInput).get();
 
-    	    if (paymentSystem != null) {
-    	        userInteraction.write(false, List.of(
-    	                new StringBuilder("Card is valid. Payment System is \"")
-    	                    .append(paymentSystem.toString())
-    	                    .append("\"")
-    	                    .toString()));
-    	    }
-    	}
+            if (paymentSystem != null) {
+                userInteraction.write(false, List.of(new StringBuilder("Card is valid. Payment System is \"")
+                        .append(paymentSystem.toString()).append("\"").toString()));
+            }
+        }
     }
 }
