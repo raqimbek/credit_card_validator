@@ -12,25 +12,34 @@ public class CardValidator {
         if (!containsOnlyDigits(input)) {
             errors.add("Card Number must contain only digits");
         }
-        
-        for (PaymentSystem paymentSystem : PaymentSystem.values()) {
-            if (!hasValidPrefix(input, paymentSystem)) {
-                errors.add("Payment System can't be determined");
-            }
 
-            if (!hasValidLength(input, paymentSystem)) {
-                errors.add(new StringBuilder("Length should be ")
-                                .append(paymentSystem.getCardValidLength())
+        var validLength = PaymentSystem.CARD_VALID_LENGTH;
+        var hasValidLength = hasValidLength(input, validLength);       
+
+        if (!hasValidLength) {
+            errors.add(new StringBuilder("Length should be ")
+                                .append(validLength)
                                 .append(" symbols")
                                 .toString());
-            }
+        }
+        
+        var hasValidPrefix = false;
+
+        for (PaymentSystem paymentSystem : PaymentSystem.values()) {
+            hasValidPrefix = hasValidPrefix(input, paymentSystem);
+            
+            if (hasValidPrefix && hasValidLength) break;
+        }
+        
+        if (!hasValidPrefix) {
+            errors.add("Payment System can't be determined");
         }
         
         if (!passesLuhnTest(parseCardNumber(input))) {
             errors.add("Card Number does not pass the Luhn Test");
         }
 
-        if (errors.size() == 0) {
+        if (errors.isEmpty()) {
             return new CardValidationInfo(true, errors);
         }
 
@@ -44,9 +53,7 @@ public class CardValidator {
                 .anyMatch(p -> cardNumber.startsWith(p.toString()));
     }
     
-    private boolean hasValidLength(String cardNumber, PaymentSystem paymentSystem) {
-        var validLength = paymentSystem.getCardValidLength();
-
+    private boolean hasValidLength(String cardNumber, int validLength) {
         if (cardNumber.length() != validLength) {
             return false;
         }
