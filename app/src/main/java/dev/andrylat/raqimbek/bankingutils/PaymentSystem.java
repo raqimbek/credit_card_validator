@@ -2,7 +2,6 @@ package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.List;
 import java.util.ArrayList;
-import org.apache.commons.lang3.StringUtils;
 
 public enum PaymentSystem {
     VISA(List.of(4)),
