@@ -28,7 +28,7 @@ public class CardValidator {
                                 .append(" symbols")
                                 .toString());
                 } else {
-                    errors.add(new StringBuilder("Length should be at most ")
+                    errors.add(new StringBuilder("Length should be ")
                                 .append(paymentSystem.getCardMaxLength())
                                 .append(" symbols")
                                 .toString());
