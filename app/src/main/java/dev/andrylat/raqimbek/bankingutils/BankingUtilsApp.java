@@ -1,5 +1,7 @@
 package dev.andrylat.raqimbek.bankingutils;
 
+import java.util.Scanner;
+
 public class BankingUtilsApp {
     private static CardValidationUserInteraction userInteraction = new CardValidationUserInteraction();
     private static CardValidator cardValidator = new CardValidator();
@@ -10,17 +12,22 @@ public class BankingUtilsApp {
     }
 
     private static void run() {
-    	userInteraction.write("Hello. Enter card number for validation:", System.out);
-    	userInteraction.read();        
+        var scanner = new Scanner(System.in);
 
-    	var cardValidationInfo = cardValidator.checkCardNumber(userInteraction.getInput());
+    	userInteraction.write("Hello. Enter card number for validation:", System.out);
+
+    	var userInput = userInteraction.read(scanner);        
+    	var cardValidationInfo = cardValidator.checkCardNumber(userInput);
 
     	if (cardValidationInfo.getErrors().size() > 0) {
-    	    userInteraction.write(cardValidationInfo.getErrors().toString(), System.out);
+    	    var errors = cardValidationInfo.getErrors().toString();
+
+    	    userInteraction.write(errors, System.out);
     	} else {
     	    var paymentSystem = paymentSystemDeterminer
     	            .determinePaymentSystemByCardNumber(userInteraction.getInput())
     	            .get();
+
     	    if (paymentSystem != null) {
     	        userInteraction.write(paymentSystem.toString(), System.out);
     	    }
