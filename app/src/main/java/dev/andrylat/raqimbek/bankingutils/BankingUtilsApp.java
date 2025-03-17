@@ -19,7 +19,7 @@ public class BankingUtilsApp {
     	var userInput = userInteraction.read(scanner);        
     	var cardValidationInfo = cardValidator.checkCardNumber(userInput);
 
-    	if (cardValidationInfo.getErrors().size() > 0) {
+    	if (!cardValidationInfo.getIsValid()) {
     	    var errors = cardValidationInfo.getErrors().toString();
 
     	    userInteraction.write(errors, System.out);
