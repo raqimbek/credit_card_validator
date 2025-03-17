@@ -1,13 +1,15 @@
 package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.Scanner;
+import java.util.List;
 import java.io.PrintStream;
 
 public class CardValidationUserInteraction {
     private String input;
 
-    public void write(String message, PrintStream out) {
-        out.println(message);
+    public void write(List<String> messages, PrintStream out) {
+        messages.stream()
+            .forEachOrdered(out::println);
     }
 
     public String read(Scanner scanner) {
