@@ -6,7 +6,7 @@ public class CardValidationInfo {
     private boolean isValid;
     private List<String> errors;
     
-    CardValidationInfo(boolean isValid, List<String> errors) {
+    public CardValidationInfo(boolean isValid, List<String> errors) {
     	this.isValid = isValid;
     	this.errors = errors;
     }
