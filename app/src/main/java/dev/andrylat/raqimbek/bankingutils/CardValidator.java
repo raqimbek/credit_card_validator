@@ -37,7 +37,7 @@ public class CardValidator {
         }
         
         if (!passesLuhnTest(parseCardNumber(input))) {
-            errors.add("Card Number is not valid");
+            errors.add("Card Number does not pass the Luhn Test");
         }
 
         if (errors.size() == 0) {
