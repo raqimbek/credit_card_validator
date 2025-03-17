@@ -3,8 +3,8 @@ package dev.andrylat.raqimbek.bankingutils;
 import java.util.List;
 
 public class CardValidationInfo {
-    boolean isValid;
-    List<String> errors;
+    private boolean isValid;
+    private List<String> errors;
     
     CardValidationInfo(boolean isValid, List<String> errors) {
     	this.isValid = isValid;
