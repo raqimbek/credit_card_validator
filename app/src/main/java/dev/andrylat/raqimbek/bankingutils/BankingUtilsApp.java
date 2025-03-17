@@ -9,7 +9,7 @@ public class BankingUtilsApp {
         run();
     }
 
-    public static void run() {
+    private static void run() {
     	userInteraction.write("Hello. Enter card number for validation:", System.out);
     	userInteraction.read();        
 
