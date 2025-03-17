@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.List;
 
 public class BankingUtilsApp {
-    private static CardValidationUserInteraction userInteraction = new CardValidationUserInteraction(new Scanner(System.in), System.out);
+    private static UserInteraction userInteraction = new UserInteraction(new Scanner(System.in), System.out);
     private static CardValidator cardValidator = new CardValidator();
     private static PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
 

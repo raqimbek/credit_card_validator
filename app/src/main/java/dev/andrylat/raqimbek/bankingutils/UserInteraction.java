@@ -4,11 +4,11 @@ import java.util.Scanner;
 import java.util.List;
 import java.io.PrintStream;
 
-public class CardValidationUserInteraction {
+public class UserInteraction {
     private PrintStream out;
     private Scanner scanner;
 
-    public CardValidationUserInteraction(Scanner scanner, PrintStream out) {
+    public UserInteraction(Scanner scanner, PrintStream out) {
         this.out = out;
         this.scanner = scanner;
     }
