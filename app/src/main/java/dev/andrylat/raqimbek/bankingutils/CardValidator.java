@@ -7,43 +7,47 @@ import java.util.stream.IntStream;
 
 public class CardValidator {
     public CardValidationInfo checkCardNumber(String input) {
-        var errors = new ArrayList<String>();
-        
-        if (!containsOnlyDigits(input)) {
-            errors.add("Card Number must contain only digits");
-        }
-
-        var validLength = PaymentSystem.CARD_VALID_LENGTH;
-        var hasValidLength = hasValidLength(input, validLength);       
-
-        if (!hasValidLength) {
-            errors.add(new StringBuilder("Length should be ")
-                                .append(validLength)
-                                .append(" symbols")
-                                .toString());
-        }
-        
-        var hasValidPrefix = false;
-
-        for (PaymentSystem paymentSystem : PaymentSystem.values()) {
-            hasValidPrefix = hasValidPrefix(input, paymentSystem);
-            
-            if (hasValidPrefix && hasValidLength) break;
-        }
-        
-        if (!hasValidPrefix) {
-            errors.add("Payment System can't be determined");
-        }
-        
-        if (!passesLuhnTest(parseCardNumber(input))) {
-            errors.add("Card Number does not pass the Luhn Test");
-        }
+        var errors = generateErrors(input);
 
         if (errors.isEmpty()) {
             return new CardValidationInfo(true, errors);
         }
 
         return new CardValidationInfo(false, errors);
+    }
+    
+    private List<String> generateErrors(String cardNumber) {
+       var errors = new ArrayList<String>();
+       
+       if (!containsOnlyDigits(cardNumber)) {
+           errors.add("Card Number must contain only digits");
+       }
+
+       var validLength = PaymentSystem.CARD_VALID_LENGTH;
+       var hasValidLength = hasValidLength(cardNumber, validLength);
+
+       if (!hasValidLength) {
+           errors.add(new StringBuilder("Length should be ").append(validLength).append(" symbols").toString());
+       }
+
+       var hasValidPrefix = false;
+
+       for (PaymentSystem paymentSystem : PaymentSystem.values()) {
+           hasValidPrefix = hasValidPrefix(cardNumber, paymentSystem);
+
+           if (hasValidPrefix && hasValidLength)
+               break;
+       }
+
+       if (!hasValidPrefix) {
+           errors.add("Payment System can't be determined");
+       }
+
+       if (!passesLuhnTest(parseCardNumber(cardNumber))) {
+           errors.add("Card Number does not pass the Luhn Test");
+       }
+
+       return errors;
     }
     
     private boolean hasValidPrefix(String cardNumber, PaymentSystem paymentSystem) {
