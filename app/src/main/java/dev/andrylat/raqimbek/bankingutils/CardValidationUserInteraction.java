@@ -5,7 +5,15 @@ import java.util.List;
 import java.io.PrintStream;
 
 public class CardValidationUserInteraction {
-    public void write(boolean isErrorMessage, List<String> messages, PrintStream out) {
+    private PrintStream out;
+    private Scanner scanner;
+
+    public CardValidationUserInteraction(Scanner scanner, PrintStream out) {
+        this.out = out;
+        this.scanner = scanner;
+    }
+
+    public void write(boolean isErrorMessage, List<String> messages) {
         if (isErrorMessage) {
             out.println("Errors:");
             messages.stream()
@@ -20,7 +28,7 @@ public class CardValidationUserInteraction {
         }
     }
 
-    public String read(Scanner scanner) {
+    public String read() {
         return scanner.nextLine();
     }
 }

@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.List;
 
 public class BankingUtilsApp {
-    private static CardValidationUserInteraction userInteraction = new CardValidationUserInteraction();
+    private static CardValidationUserInteraction userInteraction = new CardValidationUserInteraction(new Scanner(System.in), System.out);
     private static CardValidator cardValidator = new CardValidator();
     private static PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
 
@@ -13,17 +13,15 @@ public class BankingUtilsApp {
     }
 
     private static void run() {
-        var scanner = new Scanner(System.in);
+    	userInteraction.write(false, List.of("Hello. Enter card number for validation:"));
 
-    	userInteraction.write(false, List.of("Hello. Enter card number for validation:"), System.out);
-
-    	var userInput = userInteraction.read(scanner);        
+    	var userInput = userInteraction.read();        
     	var cardValidationInfo = cardValidator.checkCardNumber(userInput);
 
     	if (!cardValidationInfo.getIsValid()) {
     	    var errors = cardValidationInfo.getErrors();
 
-    	    userInteraction.write(true, errors, System.out);
+    	    userInteraction.write(true, errors);
     	} else {
     	    var paymentSystem = paymentSystemDeterminer
     	            .determinePaymentSystemByCardNumber(userInput)
@@ -34,7 +32,7 @@ public class BankingUtilsApp {
     	                new StringBuilder("Card is valid. Payment System is \"")
     	                    .append(paymentSystem.toString())
     	                    .append("\"")
-    	                    .toString()), System.out);
+    	                    .toString()));
     	    }
     	}
     }
