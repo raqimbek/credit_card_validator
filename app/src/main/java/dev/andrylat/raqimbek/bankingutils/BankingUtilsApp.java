@@ -26,7 +26,7 @@ public class BankingUtilsApp {
     	    userInteraction.write(true, errors, System.out);
     	} else {
     	    var paymentSystem = paymentSystemDeterminer
-    	            .determinePaymentSystemByCardNumber(userInteraction.getInput())
+    	            .determinePaymentSystemByCardNumber(userInput)
     	            .get();
 
     	    if (paymentSystem != null) {
