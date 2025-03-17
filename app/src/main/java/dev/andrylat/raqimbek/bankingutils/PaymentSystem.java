@@ -11,15 +11,11 @@ public enum PaymentSystem {
     JCB(List.of(35)),
     AMERICAN_EXPRESS(List.of(34, 37));
 
-    private static final int CARD_VALID_LENGTH = 16;
+    public static final int CARD_VALID_LENGTH = 16;
     private List<Integer> prefixList = new ArrayList<>();
 
     private PaymentSystem(List<Integer> prefixes) {
         prefixList.addAll(prefixes);
-    }
-
-    public int getCardValidLength() {
-        return CARD_VALID_LENGTH;
     }
 
     public List<Integer> getPrefixes() {
