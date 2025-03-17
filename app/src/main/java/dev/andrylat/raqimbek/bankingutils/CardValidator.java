@@ -20,19 +20,10 @@ public class CardValidator {
             }
 
             if (!hasValidLength(input, paymentSystem)) {
-                if (paymentSystem.getCardMinLength() > 0) {
-                    errors.add(new StringBuilder("Length should be between ")
-                                .append(paymentSystem.getCardMinLength())
-                                .append(" and ")
-                                .append(paymentSystem.getCardMaxLength())
+                errors.add(new StringBuilder("Length should be ")
+                                .append(paymentSystem.getCardValidLength())
                                 .append(" symbols")
                                 .toString());
-                } else {
-                    errors.add(new StringBuilder("Length should be ")
-                                .append(paymentSystem.getCardMaxLength())
-                                .append(" symbols")
-                                .toString());
-                }
             }
         }
         
@@ -55,11 +46,9 @@ public class CardValidator {
     }
     
     private boolean hasValidLength(String cardNumber, PaymentSystem paymentSystem) {
-        var minLength = paymentSystem.getCardMinLength();
-        var maxLength = paymentSystem.getCardMaxLength();
+        var validLength = paymentSystem.getCardValidLength();
 
-        if (cardNumber.length() < minLength
-                && cardNumber.length() > maxLength) {
+        if (cardNumber.length() != validLength) {
             return false;
         }
 
