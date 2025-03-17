@@ -16,11 +16,14 @@ public class BankingUtilsApp {
     	var cardValidationInfo = cardValidator.checkCardNumber(userInteraction.getInput());
 
     	if (cardValidationInfo.getErrors().size() > 0) {
-    	    userInteraction.write(cardValidationInfo.errors.toString(), System.out);
+    	    userInteraction.write(cardValidationInfo.getErrors().toString(), System.out);
     	} else {
-    	    userInteraction.write(paymentSystemDeterminer
+    	    var paymentSystem = paymentSystemDeterminer
     	            .determinePaymentSystemByCardNumber(userInteraction.getInput())
-    	            .get().toString(), System.out);
+    	            .get();
+    	    if (paymentSystem != null) {
+    	        userInteraction.write(paymentSystem.toString(), System.out);
+    	    }
     	}
     }
 }
