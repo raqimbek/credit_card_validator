@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 public class CardValidator {
     public CardValidationInfo checkCardNumber(String input) {
         var errors = new ArrayList<String>();
-        var isValid = false;
         
         if (!containsOnlyDigits(input)) {
             errors.add("Card Number must contain only digits");
@@ -32,10 +31,10 @@ public class CardValidator {
         }
 
         if (errors.size() == 0) {
-            isValid = true;
+            return new CardValidationInfo(true, errors);
         }
 
-        return new CardValidationInfo(isValid, errors);
+        return new CardValidationInfo(false, errors);
     }
     
     private boolean hasValidPrefix(String cardNumber, PaymentSystem paymentSystem) {
