@@ -120,7 +120,7 @@ public class CardValidator {
   }
 
   private List<Integer> parseCardNumber(String str) {
-    return Arrays.stream(str.split("")).map(Integer::valueOf).toList();
+    return new ArrayList<>(Arrays.stream(str.split("")).map(Integer::valueOf).toList());
   }
 
   private boolean containsOnlyDigits(String str) {

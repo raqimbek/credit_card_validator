@@ -10,7 +10,8 @@ public class CardValidatorTest {
   public void shouldReturnInvalidLengthErrorMessage() {
     var expected = "Length should be 16 symbols";
     var actual = "";
-    var errors = cardValidator.checkCardNumber("1234").getErrors();
+    var errors =  cardValidator.checkCardNumber("1234").getErrors();
+
     if (!errors.isEmpty()) {
       actual = errors.getFirst();
     }
@@ -23,6 +24,7 @@ public class CardValidatorTest {
     var expected = "Card Number must contain only digits";
     var actual = "";
     var errors = cardValidator.checkCardNumber("123ab").getErrors();
+
     if (!errors.isEmpty()) {
       actual = errors.getFirst();
     }
