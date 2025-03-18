@@ -43,7 +43,7 @@ public class CardValidator {
       errors.add("Payment System can't be determined");
     }
 
-    if (!passesLuhnTest(parseCardNumber(cardNumber))) {
+    if (containsOnlyDigits(cardNumber) && !passesLuhnTest(parseCardNumber(cardNumber))) {
       errors.add("Card Number does not pass the Luhn Test");
     }
 
@@ -120,7 +120,8 @@ public class CardValidator {
   }
 
   private List<Integer> parseCardNumber(String str) {
-    return new ArrayList<>(Arrays.stream(str.split("")).map(Integer::valueOf).toList());
+    return new ArrayList<>(
+        Arrays.stream(str.split("")).filter(s -> !s.equals(" ")).map(Integer::valueOf).toList());
   }
 
   private boolean containsOnlyDigits(String str) {
