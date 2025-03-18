@@ -3,6 +3,8 @@ package dev.andrylat.raqimbek.bankingutils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 public class CardValidatorTest {
   CardValidator cardValidator = new CardValidator();
 
@@ -34,12 +36,13 @@ public class CardValidatorTest {
 
   @Test
   public void shouldReturnNoPaymentSystemErrorMessage() {
-    var expected = "Payment System can't be determined";
-    var actual = "";
-    var errors = cardValidator.checkCardNumber("5625 2334 3010 9903").getErrors();
-    if (!errors.isEmpty()) {
-      actual = errors.getFirst();
-    }
+    var expected =
+        List.of(
+            "Length should be 16 symbols",
+            "Payment System can't be determined",
+            "Card Number does not pass the Luhn Test");
+    var actual =  cardValidator.checkCardNumber("5625 2334 3010 9903").getErrors();
+
 
     assertEquals(expected, actual);
   }
