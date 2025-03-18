@@ -23,13 +23,12 @@ public class CardValidatorTest {
 
   @Test
   public void shouldReturnOnlyDigitsErrorMessage() {
-    var expected = "Card Number must contain only digits";
-    var actual = "";
-    var errors = cardValidator.checkCardNumber("123ab").getErrors();
-
-    if (!errors.isEmpty()) {
-      actual = errors.getFirst();
-    }
+    var expected =
+        List.of(
+            "Card Number must contain only digits",
+            "Length should be 16 symbols",
+            "Payment System can't be determined");
+    var actual = cardValidator.checkCardNumber("123ab").getErrors();
 
     assertEquals(expected, actual);
   }
