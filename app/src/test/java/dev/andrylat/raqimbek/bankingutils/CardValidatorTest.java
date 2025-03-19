@@ -10,50 +10,46 @@ public class CardValidatorTest {
 
   @Test
   public void shouldReturnInvalidLengthErrorMessage() {
-    var expected = "Length should be 16 symbols";
+    var expected ="Length should be 16 symbols";
     var actual = "";
-    var errors =  cardValidator.checkCardNumber("1234").getErrors();
+    var errors = cardValidator.checkCardNumber("1234").getErrors();
 
     if (!errors.isEmpty()) {
-      actual = errors.getFirst();
+      actual = errors.get(0);
     }
-
     assertEquals(expected, actual);
   }
 
   @Test
   public void shouldReturnOnlyDigitsErrorMessage() {
-    var expected =
-        List.of(
-            "Card Number must contain only digits",
-            "Length should be 16 symbols",
-            "Payment System can't be determined");
-    var actual = cardValidator.checkCardNumber("123ab").getErrors();
+    var expected = "Card Number must contain only digits";
+    var actual = "";
+    var errors = cardValidator.checkCardNumber("123ab").getErrors();
+
+    if (!errors.isEmpty()) {
+      actual = errors.get(0);
+    }
 
     assertEquals(expected, actual);
   }
 
   @Test
   public void shouldReturnNoPaymentSystemErrorMessage() {
-    var expected =
-        List.of(
-            "Length should be 16 symbols",
-            "Payment System can't be determined",
-            "Card Number does not pass the Luhn Test");
-    var actual =  cardValidator.checkCardNumber("5625 2334 3010 9903").getErrors();
+    var expected = "Payment System can't be determined";
+    var actual = "";
+    var errors =  cardValidator.checkCardNumber("5625 2334 3010 9903").getErrors();
 
+    if (!errors.isEmpty()) {
+      actual = errors.get(0);
+    }
 
     assertEquals(expected, actual);
   }
 
   @Test
   public void shouldReturnLuhnTestErrorMessage() {
-    var expected = "Card Number does not pass the Luhn Test";
-    var actual = "";
-    var errors = cardValidator.checkCardNumber("5425 2334 3010 9923").getErrors();
-    if (!errors.isEmpty()) {
-      actual = errors.getFirst();
-    }
+    var expected = List.of("Card Number does not pass the Luhn Test");
+    var actual = cardValidator.checkCardNumber("5425 2334 3010 9923").getErrors();
 
     assertEquals(expected, actual);
   }

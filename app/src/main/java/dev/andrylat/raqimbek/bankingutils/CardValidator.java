@@ -3,6 +3,7 @@ package dev.andrylat.raqimbek.bankingutils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CardValidator {
@@ -18,6 +19,8 @@ public class CardValidator {
 
   private List<String> generateErrors(String cardNumber) {
     var errors = new ArrayList<String>();
+
+    cardNumber = removeWhiteSpace(cardNumber);
 
     if (!containsOnlyDigits(cardNumber)) {
       errors.add("Card Number must contain only digits");
@@ -36,7 +39,7 @@ public class CardValidator {
     for (PaymentSystem paymentSystem : PaymentSystem.values()) {
       hasValidPrefix = hasValidPrefix(cardNumber, paymentSystem);
 
-      if (hasValidPrefix && hasValidLength) break;
+      if (hasValidPrefix) break;
     }
 
     if (!hasValidPrefix) {
@@ -57,11 +60,8 @@ public class CardValidator {
   }
 
   private boolean hasValidLength(String cardNumber, int validLength) {
-    if (cardNumber.length() != validLength) {
-      return false;
-    }
-
-    return true;
+    var cardNumberLength = cardNumber.length();
+    return cardNumberLength == validLength;
   }
 
   private boolean passesLuhnTest(List<Integer> cardNumberAsList) {
@@ -112,22 +112,25 @@ public class CardValidator {
 
     var sum = cardNumberSum + sumOfNumbersWithTwoDigits + sumOfEveryOtherNumber;
 
-    if (sum % 10 != 0) {
-      return false;
-    }
-
-    return true;
+    return sum % 10 == 0;
   }
 
   private List<Integer> parseCardNumber(String str) {
-    return new ArrayList<>(
-        Arrays.stream(str.split("")).filter(s -> !s.equals(" ")).map(Integer::valueOf).toList());
+    return stringToCharactersList(str).stream()
+        .filter(Character::isDigit)
+        .map(Character::getNumericValue)
+        .collect(Collectors.toList());
+  }
+
+  private List<Character> stringToCharactersList(String str) {
+    return Arrays.stream(str.split("")).map(s -> s.charAt(0)).collect(Collectors.toList());
+  }
+
+  private String removeWhiteSpace(String s) {
+    return s.replaceAll(" ", "");
   }
 
   private boolean containsOnlyDigits(String str) {
-    return Arrays.stream(str.split(""))
-        .map(s -> s.charAt(0))
-        .filter(c -> !c.equals(' '))
-        .allMatch(Character::isDigit);
+    return stringToCharactersList(str).stream().allMatch(Character::isDigit);
   }
 }
