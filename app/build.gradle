@@ -6,14 +6,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation libs.junit.jupiter
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    implementation libs.guava
-}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(22)
@@ -32,6 +24,14 @@ jar {
 
 run {
     standardInput = System.in
+}
+
+dependencies {
+    testImplementation libs.junit.jupiter
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation libs.guava
 }
 
 tasks.named('test') {
