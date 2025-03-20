@@ -10,7 +10,7 @@ public class CardValidatorTest {
 
   @Test
   public void shouldReturnInvalidLengthErrorMessage() {
-    var expected ="Length should be 16 symbols";
+    var expected = "Length should be 16 symbols";
     var actual = "";
     var errors = cardValidator.checkCardNumber("1234").getErrors();
 
@@ -37,7 +37,7 @@ public class CardValidatorTest {
   public void shouldReturnNoPaymentSystemErrorMessage() {
     var expected = "Payment System can't be determined";
     var actual = "";
-    var errors =  cardValidator.checkCardNumber("5625 2334 3010 9903").getErrors();
+    var errors = cardValidator.checkCardNumber("5625 2334 3010 9903").getErrors();
 
     if (!errors.isEmpty()) {
       actual = errors.get(0);
