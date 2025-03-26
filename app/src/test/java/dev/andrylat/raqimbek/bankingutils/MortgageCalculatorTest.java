@@ -47,6 +47,7 @@ public class MortgageCalculatorTest {
     putOnMonthlyPaymentTestDataMap(testDataMap, 360_000.0, 7.5, 30, 2_547.0);
     putOnMonthlyPaymentTestDataMap(testDataMap, 360_000.0, 5, 30, 1_938.0);
     putOnMonthlyPaymentTestDataMap(testDataMap, 176_000.0, 4, 30, 841.0);
+    putOnMonthlyPaymentTestDataMap(testDataMap, 1_000_000, 12, 10, 14_333);
   }
 
   private void putOnMonthlyPaymentTestDataMap(
