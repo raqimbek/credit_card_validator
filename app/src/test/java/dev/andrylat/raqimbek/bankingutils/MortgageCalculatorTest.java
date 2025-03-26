@@ -36,7 +36,7 @@ public class MortgageCalculatorTest {
 
           if (annualInterestRate > 0 && borrowedAmount > 0 && numberOfYears > 0) {
             var actual =
-                mortgageCalculator.calculateMortgagePaymentWithInterest(
+                mortgageCalculator.calculateMonthlyMortgagePayment(
                     borrowedAmount, annualInterestRate, numberOfYears);
             assertEquals(expectedMonthlyPayment, actual);
           }

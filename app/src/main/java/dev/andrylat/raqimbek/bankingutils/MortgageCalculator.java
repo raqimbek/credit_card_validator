@@ -1,7 +1,7 @@
 package dev.andrylat.raqimbek.bankingutils;
 
 public class MortgageCalculator {
-  public double calculateMortgagePaymentWithInterest(
+  public double calculateMonthlyMortgagePayment(
       double borrowedAmount, double annualInterestRate, double numberOfYears) {
     annualInterestRate /= 100;
 
