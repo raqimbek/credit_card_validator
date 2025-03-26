@@ -10,7 +10,7 @@ public class MortgageCalculatorTest {
   private final MortgageCalculator mortgageCalculator = new MortgageCalculator();
 
   @Test
-  public void shouldReturnProperMonthlyPaymentForMortgageWithInterest() {
+  public void shouldReturnProperMonthlyPaymentForMortgage() {
     var testDataMap = new HashMap<Double, Map<String, Double>>();
     initializeMonthlyPaymentTestData(testDataMap);
 
