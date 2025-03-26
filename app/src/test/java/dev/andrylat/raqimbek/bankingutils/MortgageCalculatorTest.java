@@ -10,9 +10,9 @@ public class MortgageCalculatorTest {
   private final MortgageCalculator mortgageCalculator = new MortgageCalculator();
 
   @Test
-  public void shouldReturnProperPaymentForMortgageWithInterest() {
+  public void shouldReturnProperMonthlyPaymentForMortgageWithInterest() {
     var testDataMap = new HashMap<Double, Map<String, Double>>();
-    initializeTestData(testDataMap);
+    initializeMonthlyPaymentTestData(testDataMap);
 
     testDataMap.forEach(
         (expectedMonthlyPayment, value) -> {
@@ -43,13 +43,13 @@ public class MortgageCalculatorTest {
         });
   }
 
-  private void initializeTestData(Map<Double, Map<String, Double>> testDataMap) {
-    putOnTestDataMap(testDataMap, 360_000.0, 7.5, 30, 2_547.0);
-    putOnTestDataMap(testDataMap, 360_000.0, 5, 30, 1_938.0);
-    putOnTestDataMap(testDataMap, 176_000.0, 4, 30, 841.0);
+  private void initializeMonthlyPaymentTestData(Map<Double, Map<String, Double>> testDataMap) {
+    putOnMonthlyPaymentTestDataMap(testDataMap, 360_000.0, 7.5, 30, 2_547.0);
+    putOnMonthlyPaymentTestDataMap(testDataMap, 360_000.0, 5, 30, 1_938.0);
+    putOnMonthlyPaymentTestDataMap(testDataMap, 176_000.0, 4, 30, 841.0);
   }
 
-  private void putOnTestDataMap(
+  private void putOnMonthlyPaymentTestDataMap(
       Map<Double, Map<String, Double>> testDataMap,
       double borrowedAmount,
       double annualInterestRate,
