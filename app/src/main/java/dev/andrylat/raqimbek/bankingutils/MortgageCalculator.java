@@ -1,18 +1,15 @@
 package dev.andrylat.raqimbek.bankingutils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 public class MortgageCalculator {
-  public double calculateMortgagePayment(BigDecimal p, double r, int n, int t) {
-    // formula: (p * (r / n) * (1 + ((r / n) ^ n) * t)) / ((1 + ((r / n) ^ n) * t) - 1)
+  public double calculateMortgagePaymentWithInterest(
+      double borrowedAmount, double annualInterestRate, double numberOfYears) {
+    annualInterestRate /= 100;
 
-    var annualInterestRate = new BigDecimal(r / n);
-    var bg1 = annualInterestRate.pow(n).multiply(new BigDecimal(t)).add(BigDecimal.ONE);
-
-    return p.multiply(annualInterestRate)
-        .multiply(bg1)
-        .divide(bg1.subtract(BigDecimal.ONE), 10, RoundingMode.HALF_EVEN)
-        .doubleValue();
+    var payBackForEveryCurrencyUnit =
+        1
+            + annualInterestRate * numberOfYears / 2
+            + Math.pow(annualInterestRate * numberOfYears, 2) / 12;
+    var numberOfMonthlyPayments = numberOfYears * 12;
+    return Math.round(borrowedAmount * payBackForEveryCurrencyUnit / numberOfMonthlyPayments);
   }
 }
