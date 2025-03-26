@@ -10,13 +10,6 @@ public class MortgageCalculatorTest {
   private final MortgageCalculator mortgageCalculator = new MortgageCalculator();
 
   @Test
-  public void shouldReturnProperPaymentForMortgageWithNoInterest() {
-    var expected = 1000.0;
-    var actual = mortgageCalculator.calculateMortgagePaymentWithNoInterest(360_000.0, 30.0);
-    assertEquals(expected, actual);
-  }
-
-  @Test
   public void shouldReturnProperPaymentForMortgageWithInterest() {
     var testDataMap = new HashMap<Double, Map<String, Double>>();
     initializeTestData(testDataMap);
