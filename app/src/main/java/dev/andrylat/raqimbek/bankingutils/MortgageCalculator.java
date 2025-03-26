@@ -12,4 +12,11 @@ public class MortgageCalculator {
     var numberOfMonthlyPayments = numberOfYears * 12;
     return Math.round(borrowedAmount * payBackForEveryCurrencyUnit / numberOfMonthlyPayments);
   }
+
+  public double calculateTotalInterestPayment(
+      double borrowedAmount, double annualInterestRate, double numberOfYears) {
+    return borrowedAmount
+        * ((annualInterestRate * numberOfYears / 2)
+            + (Math.pow(annualInterestRate * numberOfYears, 2) / 12));
+  }
 }
