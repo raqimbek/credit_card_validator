@@ -4,10 +4,10 @@ import java.util.Scanner;
 import java.util.List;
 
 public class BankingUtilsApp {
-  private static final UserInteraction userInteraction =
-      new UserInteraction(new Scanner(System.in), System.out);
-  private static final CardValidator cardValidator = new CardValidator();
-  private static final PaymentSystemDeterminer paymentSystemDeterminer =
+  private static final CommandLineUserInteraction COMMAND_LINE_USER_INTERACTION =
+      new CommandLineUserInteraction(new Scanner(System.in), System.out);
+  private static final CardValidator CARD_VALIDATOR = new CardValidator();
+  private static final PaymentSystemDeterminer PAYMENT_SYSTEM_DETERMINER =
       new PaymentSystemDeterminer();
 
   public static void main(String[] args) {
@@ -15,18 +15,18 @@ public class BankingUtilsApp {
   }
 
   private static void run() {
-    userInteraction.write(false, List.of("Hello. Enter card number for validation:"));
+    COMMAND_LINE_USER_INTERACTION.write(false, List.of("Hello. Enter card number for validation:"));
 
-    var userInput = userInteraction.read();
-    var cardValidationInfo = cardValidator.checkCardNumber(userInput);
+    var userInput = COMMAND_LINE_USER_INTERACTION.read();
+    var cardValidationInfo = CARD_VALIDATOR.checkCardNumber(userInput);
 
-    if (!cardValidationInfo.getIsValid()) {
-      var errors = cardValidationInfo.getErrors();
+    if (!cardValidationInfo.isValid()) {
+      var errors = cardValidationInfo.errors();
 
-      userInteraction.write(true, errors);
+      COMMAND_LINE_USER_INTERACTION.write(true, errors);
     } else {
       var paymentSystemOptional =
-          paymentSystemDeterminer.determinePaymentSystemByCardNumber(userInput);
+          PAYMENT_SYSTEM_DETERMINER.determinePaymentSystemByCardNumber(userInput);
 
       if (paymentSystemOptional.isPresent()) {
         var paymentSystem = paymentSystemOptional.get();
@@ -36,7 +36,7 @@ public class BankingUtilsApp {
                 .append("\"")
                 .toString();
 
-        userInteraction.write(false, List.of(message));
+        COMMAND_LINE_USER_INTERACTION.write(false, List.of(message));
       }
     }
   }
