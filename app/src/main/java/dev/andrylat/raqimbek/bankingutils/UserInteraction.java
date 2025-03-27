@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface UserInteraction {
 
-  public void write(boolean isErrorMessage, List<String> messages);
+  void write(String message);
 
-  public String read();
+  void writeAll(List<String> messages);
+
+  String read();
 }

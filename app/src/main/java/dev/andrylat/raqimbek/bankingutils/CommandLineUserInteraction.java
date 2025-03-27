@@ -5,22 +5,20 @@ import java.util.List;
 import java.io.PrintStream;
 
 public class CommandLineUserInteraction implements UserInteraction {
-  private PrintStream out;
-  private Scanner scanner;
+  private final PrintStream out;
+  private final Scanner scanner;
 
   public CommandLineUserInteraction(Scanner scanner, PrintStream out) {
     this.out = out;
     this.scanner = scanner;
   }
 
-  public void write(boolean isErrorMessage, List<String> messages) {
-    if (isErrorMessage) {
-      out.println("Errors:");
-      messages.stream()
-          .forEachOrdered(m -> out.println(new StringBuilder("->").append(m).toString()));
-    } else {
-      messages.stream().forEach(out::println);
-    }
+  public void write(String message) {
+    out.println(message);
+  }
+
+  public void writeAll(List<String> messages) {
+    messages.stream().forEachOrdered(m -> write(new StringBuilder("->").append(m).toString()));
   }
 
   public String read() {

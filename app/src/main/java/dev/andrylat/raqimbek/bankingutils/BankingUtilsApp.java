@@ -1,13 +1,12 @@
 package dev.andrylat.raqimbek.bankingutils;
 
 import java.util.Scanner;
-import java.util.List;
 
 public class BankingUtilsApp {
-  private static final CommandLineUserInteraction COMMAND_LINE_USER_INTERACTION =
+  private static final CommandLineUserInteraction commandLineUserInteraction =
       new CommandLineUserInteraction(new Scanner(System.in), System.out);
-  private static final CardValidator CARD_VALIDATOR = new CardValidator();
-  private static final PaymentSystemDeterminer PAYMENT_SYSTEM_DETERMINER =
+  private static final CardValidator cardValidator = new CardValidator();
+  private static final PaymentSystemDeterminer paymentSystemDeterminer =
       new PaymentSystemDeterminer();
 
   public static void main(String[] args) {
@@ -15,29 +14,63 @@ public class BankingUtilsApp {
   }
 
   private static void run() {
-    COMMAND_LINE_USER_INTERACTION.write(false, List.of("Hello. Enter card number for validation:"));
+    StringBuilder greetingMessage =
+        new StringBuilder("Hello. Please type the index of the service you need:\n");
+    var services = BankingService.values();
 
-    var userInput = COMMAND_LINE_USER_INTERACTION.read();
-    var cardValidationInfo = CARD_VALIDATOR.checkCardNumber(userInput);
+    for (var i = 0; i < services.length; i++) {
+      greetingMessage.append("[").append(i).append("] - ").append(services[i]).append("\n");
+    }
 
-    if (!cardValidationInfo.isValid()) {
-      var errors = cardValidationInfo.errors();
+    commandLineUserInteraction.write(greetingMessage.toString());
 
-      COMMAND_LINE_USER_INTERACTION.write(true, errors);
-    } else {
-      var paymentSystemOptional =
-          PAYMENT_SYSTEM_DETERMINER.determinePaymentSystemByCardNumber(userInput);
+    var selectedService = 0;
 
-      if (paymentSystemOptional.isPresent()) {
-        var paymentSystem = paymentSystemOptional.get();
-        var message =
-            new StringBuilder("Card is valid. Payment System is \"")
-                .append(paymentSystem)
-                .append("\"")
-                .toString();
+    try {
+      selectedService = Integer.parseInt(commandLineUserInteraction.read());
+    } catch (NumberFormatException e) {
+      commandLineUserInteraction.write(
+          "Please write only an integer number representing an index of a service.");
+    }
 
-        COMMAND_LINE_USER_INTERACTION.write(false, List.of(message));
-      }
+    switch (services[selectedService]) {
+      case BankingService.CARD_VALIDATOR:
+        commandLineUserInteraction.write(BankingService.CARD_VALIDATOR.getGreetingMessage());
+
+        var userInput = commandLineUserInteraction.read();
+        var cardValidationInfo = cardValidator.checkCardNumber(userInput);
+
+        if (!cardValidationInfo.isValid()) {
+          var errors = cardValidationInfo.errors();
+
+          commandLineUserInteraction.write("Card is not valid. Errors:");
+          commandLineUserInteraction.writeAll(errors);
+        } else {
+          var paymentSystemOptional =
+              paymentSystemDeterminer.determinePaymentSystemByCardNumber(userInput);
+
+          if (paymentSystemOptional.isPresent()) {
+            var paymentSystem = paymentSystemOptional.get();
+            var message =
+                new StringBuilder("Card is valid. Payment System is \"")
+                    .append(paymentSystem)
+                    .append("\"")
+                    .toString();
+
+            commandLineUserInteraction.write(message);
+          }
+        }
+        break;
+      case BankingService.MORTGAGE_CALCULATOR:
+        commandLineUserInteraction.write(BankingService.MORTGAGE_CALCULATOR.getGreetingMessage());
+
+        var borrowedAmount = commandLineUserInteraction.read();
+        var annualInterestRate = commandLineUserInteraction.read();
+        var numberOfYears = commandLineUserInteraction.read();
+
+        //         mortgageInputValidator.validate(borrowedAmount, annualInterestRate,
+        // numberOfYears);
+        break;
     }
   }
 }
