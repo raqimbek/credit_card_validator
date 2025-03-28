@@ -1,5 +1,7 @@
 package dev.andrylat.raqimbek.bankingutils;
 
+import lombok.NonNull;
+
 import java.util.Scanner;
 
 public class BankingUtilsApp {
@@ -15,6 +17,75 @@ public class BankingUtilsApp {
   }
 
   private static void run() {
+    promptForSelectedBankingServiceInput(greet());
+  }
+
+  private static void promptForMortgageInput() {
+
+    commandLineUserInteraction.write(BankingService.MORTGAGE_CALCULATOR.getPromptingMessage());
+
+    var isMortgageInputValid = false;
+
+    do {
+
+      var borrowedAmount = commandLineUserInteraction.read();
+      var annualInterestRate = commandLineUserInteraction.read();
+      var numberOfYears = commandLineUserInteraction.read();
+
+      var mortgageInputValidationInfo =
+          mortgageInputValidator.validate(borrowedAmount, annualInterestRate, numberOfYears);
+
+      isMortgageInputValid = mortgageInputValidationInfo.isValid();
+
+      if (!isMortgageInputValid) {
+        commandLineUserInteraction.write("Input data is incorrect. Errors: ");
+        commandLineUserInteraction.writeAll(mortgageInputValidationInfo.errors());
+        commandLineUserInteraction.write(BankingService.MORTGAGE_CALCULATOR.getPromptingMessage());
+      }
+    } while (isMortgageInputValid);
+  }
+
+  private static void promptForCardValidatorInput() {
+
+    commandLineUserInteraction.write(BankingService.CARD_VALIDATOR.getPromptingMessage());
+
+    var userInput = commandLineUserInteraction.read();
+    var cardValidationInfo = cardValidator.checkCardNumber(userInput);
+
+    if (!cardValidationInfo.isValid()) {
+      commandLineUserInteraction.write("Card is not valid. Errors:");
+      commandLineUserInteraction.writeAll(cardValidationInfo.errors());
+    } else {
+      var paymentSystemOptional =
+          paymentSystemDeterminer.determinePaymentSystemByCardNumber(userInput);
+
+      if (paymentSystemOptional.isPresent()) {
+        var paymentSystem = paymentSystemOptional.get();
+        var message =
+            new StringBuilder("Card is valid. Payment System is \"")
+                .append(paymentSystem)
+                .append("\"")
+                .toString();
+
+        commandLineUserInteraction.write(message);
+      }
+    }
+  }
+
+  private static void promptForSelectedBankingServiceInput(
+      @NonNull BankingService selectedService) {
+
+    switch (selectedService) {
+      case BankingService.CARD_VALIDATOR:
+        promptForCardValidatorInput();
+        break;
+      case BankingService.MORTGAGE_CALCULATOR:
+        promptForMortgageInput();
+        break;
+    }
+  }
+
+  private static BankingService greet() {
     StringBuilder greetingMessage =
         new StringBuilder("Hello. Please type the index of the service you need:\n");
     var services = BankingService.values();
@@ -36,57 +107,6 @@ public class BankingUtilsApp {
       }
     } while (selectedService < 0);
 
-    switch (services[selectedService]) {
-      case BankingService.CARD_VALIDATOR:
-        commandLineUserInteraction.write(BankingService.CARD_VALIDATOR.getPromptingMessage());
-
-        var userInput = commandLineUserInteraction.read();
-        var cardValidationInfo = cardValidator.checkCardNumber(userInput);
-
-        if (!cardValidationInfo.isValid()) {
-          var errors = cardValidationInfo.errors();
-
-          commandLineUserInteraction.write("Card is not valid. Errors:");
-          commandLineUserInteraction.writeAll(errors);
-        } else {
-          var paymentSystemOptional =
-              paymentSystemDeterminer.determinePaymentSystemByCardNumber(userInput);
-
-          if (paymentSystemOptional.isPresent()) {
-            var paymentSystem = paymentSystemOptional.get();
-            var message =
-                new StringBuilder("Card is valid. Payment System is \"")
-                    .append(paymentSystem)
-                    .append("\"")
-                    .toString();
-
-            commandLineUserInteraction.write(message);
-          }
-        }
-        break;
-      case BankingService.MORTGAGE_CALCULATOR:
-        commandLineUserInteraction.write(BankingService.MORTGAGE_CALCULATOR.getPromptingMessage());
-
-        var isMortgageInputValid = false;
-        do {
-
-          var borrowedAmount = commandLineUserInteraction.read();
-          var annualInterestRate = commandLineUserInteraction.read();
-          var numberOfYears = commandLineUserInteraction.read();
-
-          var mortgageInputValidationInfo =
-              mortgageInputValidator.validate(borrowedAmount, annualInterestRate, numberOfYears);
-          isMortgageInputValid = mortgageInputValidationInfo.isValid();
-
-          if (!isMortgageInputValid) {
-            commandLineUserInteraction.write("Input data is incorrect. Errors: ");
-            commandLineUserInteraction.writeAll(mortgageInputValidationInfo.errors());
-            commandLineUserInteraction.write(
-                BankingService.MORTGAGE_CALCULATOR.getPromptingMessage());
-          }
-        } while (isMortgageInputValid);
-
-        break;
-    }
+    return services[selectedService];
   }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public class MortgageInputValidator {
   private static final double MINIMUM_BORROWED_AMOUNT = 1.0;
 
+  @NonNull
   public MortgageInputValidationInfo validate(
       @NonNull String borrowedAmount,
       @NonNull String annualInterestRate,
@@ -23,6 +24,7 @@ public class MortgageInputValidator {
     return new MortgageInputValidationInfo(false, errors);
   }
 
+  @NonNull
   private List<String> generateErrors(@NonNull String... input) {
     var errors = new ArrayList<String>();
     var borrowedAmount = input[0];

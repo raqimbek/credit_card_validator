@@ -1,5 +1,7 @@
 package dev.andrylat.raqimbek.bankingutils;
 
+import lombok.NonNull;
+
 import java.util.Scanner;
 import java.util.List;
 import java.io.PrintStream;
@@ -21,6 +23,7 @@ public class CommandLineUserInteraction implements UserInteraction {
     messages.stream().forEachOrdered(m -> write(new StringBuilder("-> ").append(m).toString()));
   }
 
+  @NonNull
   public String read() {
     return scanner.nextLine();
   }
