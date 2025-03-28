@@ -8,6 +8,7 @@ public class BankingUtilsApp {
   private static final CardValidator cardValidator = new CardValidator();
   private static final PaymentSystemDeterminer paymentSystemDeterminer =
       new PaymentSystemDeterminer();
+  private static final MortgageInputValidator mortgageInputValidator = new MortgageInputValidator();
 
   public static void main(String[] args) {
     run();
@@ -24,18 +25,20 @@ public class BankingUtilsApp {
 
     commandLineUserInteraction.write(greetingMessage.toString());
 
-    var selectedService = 0;
+    var selectedService = -1;
 
-    try {
-      selectedService = Integer.parseInt(commandLineUserInteraction.read());
-    } catch (NumberFormatException e) {
-      commandLineUserInteraction.write(
-          "Please write only an integer number representing an index of a service.");
-    }
+    do {
+      try {
+        selectedService = Integer.parseInt(commandLineUserInteraction.read());
+      } catch (NumberFormatException e) {
+        commandLineUserInteraction.write(
+            "Please write only a number representing an index of a service.");
+      }
+    } while (selectedService < 0);
 
     switch (services[selectedService]) {
       case BankingService.CARD_VALIDATOR:
-        commandLineUserInteraction.write(BankingService.CARD_VALIDATOR.getGreetingMessage());
+        commandLineUserInteraction.write(BankingService.CARD_VALIDATOR.getPromptingMessage());
 
         var userInput = commandLineUserInteraction.read();
         var cardValidationInfo = cardValidator.checkCardNumber(userInput);
@@ -62,14 +65,27 @@ public class BankingUtilsApp {
         }
         break;
       case BankingService.MORTGAGE_CALCULATOR:
-        commandLineUserInteraction.write(BankingService.MORTGAGE_CALCULATOR.getGreetingMessage());
+        commandLineUserInteraction.write(BankingService.MORTGAGE_CALCULATOR.getPromptingMessage());
 
-        var borrowedAmount = commandLineUserInteraction.read();
-        var annualInterestRate = commandLineUserInteraction.read();
-        var numberOfYears = commandLineUserInteraction.read();
+        var isMortgageInputValid = false;
+        do {
 
-        //         mortgageInputValidator.validate(borrowedAmount, annualInterestRate,
-        // numberOfYears);
+          var borrowedAmount = commandLineUserInteraction.read();
+          var annualInterestRate = commandLineUserInteraction.read();
+          var numberOfYears = commandLineUserInteraction.read();
+
+          var mortgageInputValidationInfo =
+              mortgageInputValidator.validate(borrowedAmount, annualInterestRate, numberOfYears);
+          isMortgageInputValid = mortgageInputValidationInfo.isValid();
+
+          if (!isMortgageInputValid) {
+            commandLineUserInteraction.write("Input data is incorrect. Errors: ");
+            commandLineUserInteraction.writeAll(mortgageInputValidationInfo.errors());
+            commandLineUserInteraction.write(
+                BankingService.MORTGAGE_CALCULATOR.getPromptingMessage());
+          }
+        } while (isMortgageInputValid);
+
         break;
     }
   }
