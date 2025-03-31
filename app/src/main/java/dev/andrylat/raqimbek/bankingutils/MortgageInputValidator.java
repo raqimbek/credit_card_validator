@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MortgageInputValidator {
+public class MortgageInputValidator implements Validator {
   private static final double MINIMUM_BORROWED_AMOUNT = 1.0;
 
   @NonNull
-  public MortgageInputValidationInfo validate(
-      @NonNull String borrowedAmount,
-      @NonNull String annualInterestRate,
-      @NonNull String numberOfYears) {
+  public MortgageInputValidationInfo validate(@NonNull List<String> inputList) {
+    String borrowedAmount = inputList.get(0);
+    String annualInterestRate = inputList.get(1);
+    String numberOfYears = inputList.get(2);
 
     var errors = generateErrors(borrowedAmount, annualInterestRate, numberOfYears);
 

@@ -3,22 +3,15 @@ package dev.andrylat.raqimbek.bankingutils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class CardValidatorDialog implements Dialog {
   @NonNull private final UserInteraction userInteraction;
 
-  @NonNull
-  public String prompt() {
-    return "Enter card number for validation:";
-  }
-
-  public void display(@NonNull String message) {
-    userInteraction.write(message);
-  }
-
-  public void displayAll(@NonNull String... messages) {
-    Arrays.stream(messages).forEach(this::display);
+  public @NonNull List<String> prompt() {
+    @NonNull String promptMessage = "Enter card number for validation:";
+    userInteraction.write(promptMessage);
+    return List.of(userInteraction.read());
   }
 }

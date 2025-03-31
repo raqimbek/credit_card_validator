@@ -1,8 +1,15 @@
 package dev.andrylat.raqimbek.bankingutils;
 
-public class MortgageCalculator {
-  public double calculateMonthlyMortgagePayment(
-      double borrowedAmount, double annualInterestRate, double numberOfYears) {
+import lombok.NonNull;
+
+import java.util.List;
+
+public class MortgageCalculator implements BankingService<Long, Double> {
+  @NonNull
+  public Long run(@NonNull List<Double> inputList) {
+    var borrowedAmount = inputList.get(0);
+    var annualInterestRate = inputList.get(1);
+    var numberOfYears = inputList.get(2);
     annualInterestRate /= 100;
 
     var payBackForEveryCurrencyUnit =

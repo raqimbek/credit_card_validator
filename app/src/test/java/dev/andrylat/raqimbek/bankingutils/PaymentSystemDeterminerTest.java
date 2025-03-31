@@ -3,6 +3,8 @@ package dev.andrylat.raqimbek.bankingutils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 public class PaymentSystemDeterminerTest {
   PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
 
@@ -26,15 +28,15 @@ public class PaymentSystemDeterminerTest {
 
   @Test
   public void shouldReturnEmptyString() {
-      var expected = "";
-      var cardNumber = "5863 9826 4026 9299";
-      var actual = getPaymentSystem(cardNumber);
+    var expected = "";
+    var cardNumber = "5863 9826 4026 9299";
+    var actual = getPaymentSystem(cardNumber);
 
-      assertEquals(expected, actual);
+    assertEquals(expected, actual);
   }
 
   private String getPaymentSystem(String cardNumber) {
-    var paymentSystem = paymentSystemDeterminer.determinePaymentSystemByCardNumber(cardNumber);
+    var paymentSystem = paymentSystemDeterminer.run(List.of(cardNumber));
 
     if (paymentSystem.isPresent()) {
       return paymentSystem.get().toString();

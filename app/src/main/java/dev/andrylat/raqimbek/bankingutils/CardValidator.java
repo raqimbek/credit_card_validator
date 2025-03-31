@@ -1,23 +1,32 @@
 package dev.andrylat.raqimbek.bankingutils;
 
+import lombok.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class CardValidator {
-  public CardValidationInfo checkCardNumber(String input) {
-    var errors = generateErrors(input);
+public class CardValidator implements Validator {
+  @NonNull
+  public CardValidationInfo validate(@NonNull List<String> inputList) {
+    var errors = new ArrayList<String>();
 
-    if (errors.isEmpty()) {
-      return new CardValidationInfo(true, errors);
-    }
+    inputList.forEach(
+        input -> {
+          var _errors = generateErrors(input);
 
-    return new CardValidationInfo(false, errors);
+          if (_errors.isEmpty()) {
+            errors.addAll(_errors);
+          }
+        });
+
+    return new CardValidationInfo(errors.isEmpty(), errors);
   }
 
-  private List<String> generateErrors(String cardNumber) {
+  @NonNull
+  private List<String> generateErrors(@NonNull String cardNumber) {
     var errors = new ArrayList<String>();
 
     cardNumber = removeWhiteSpace(cardNumber);
@@ -53,18 +62,18 @@ public class CardValidator {
     return errors;
   }
 
-  private boolean hasValidPrefix(String cardNumber, PaymentSystem paymentSystem) {
+  private boolean hasValidPrefix(@NonNull String cardNumber, PaymentSystem paymentSystem) {
     var prefixes = paymentSystem.getPrefixes();
 
     return prefixes.stream().anyMatch(p -> cardNumber.startsWith(p.toString()));
   }
 
-  private boolean hasValidLength(String cardNumber, int validLength) {
+  private boolean hasValidLength(@NonNull String cardNumber, int validLength) {
     var cardNumberLength = cardNumber.length();
     return cardNumberLength == validLength;
   }
 
-  private boolean passesLuhnTest(List<Integer> cardNumberAsList) {
+  private boolean passesLuhnTest(@NonNull List<Integer> cardNumberAsList) {
     var everyOtherNumberList =
         new ArrayList<>(
             IntStream.range(0, cardNumberAsList.size())
@@ -115,22 +124,25 @@ public class CardValidator {
     return sum % 10 == 0;
   }
 
-  private List<Integer> parseCardNumber(String str) {
+  @NonNull
+  private List<Integer> parseCardNumber(@NonNull String str) {
     return stringToCharactersList(str).stream()
         .filter(Character::isDigit)
         .map(Character::getNumericValue)
         .collect(Collectors.toList());
   }
 
-  private List<Character> stringToCharactersList(String str) {
+  @NonNull
+  private List<Character> stringToCharactersList(@NonNull String str) {
     return Arrays.stream(str.split("")).map(s -> s.charAt(0)).collect(Collectors.toList());
   }
 
-  private String removeWhiteSpace(String s) {
+  @NonNull
+  private String removeWhiteSpace(@NonNull String s) {
     return s.replaceAll(" ", "");
   }
 
-  private boolean containsOnlyDigits(String str) {
+  private boolean containsOnlyDigits(@NonNull String str) {
     return stringToCharactersList(str).stream().allMatch(Character::isDigit);
   }
 }

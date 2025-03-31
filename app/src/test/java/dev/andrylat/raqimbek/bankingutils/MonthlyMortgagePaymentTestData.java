@@ -4,4 +4,4 @@ public record MonthlyMortgagePaymentTestData(
     double borrowedAmount,
     double annualInterestRate,
     double numberOfYears,
-    double expectedMonthlyPayment) {}
+    long expectedMonthlyPayment) {}

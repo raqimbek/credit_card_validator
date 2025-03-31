@@ -4,8 +4,7 @@ import lombok.NonNull;
 
 import java.util.List;
 
-public interface Dialog {
-
+public interface Validator {
   @NonNull
-  List<String> prompt();
+  ValidationInfo validate(@NonNull List<String> input);
 }

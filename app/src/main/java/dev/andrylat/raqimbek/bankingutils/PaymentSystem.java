@@ -14,7 +14,7 @@ public enum PaymentSystem {
   public static final int CARD_VALID_LENGTH = 16;
   private List<Integer> prefixList = new ArrayList<>();
 
-  private PaymentSystem(List<Integer> prefixes) {
+  PaymentSystem(List<Integer> prefixes) {
     prefixList.addAll(prefixes);
   }
 

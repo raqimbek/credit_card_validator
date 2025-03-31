@@ -20,10 +20,11 @@ public class MortgageCalculatorTest {
               && testCaseData.borrowedAmount() > 0
               && testCaseData.numberOfYears() > 0) {
             var actual =
-                mortgageCalculator.calculateMonthlyMortgagePayment(
-                    testCaseData.borrowedAmount(),
-                    testCaseData.annualInterestRate(),
-                    testCaseData.numberOfYears());
+                mortgageCalculator.run(
+                    List.of(
+                        testCaseData.borrowedAmount(),
+                        testCaseData.annualInterestRate(),
+                        testCaseData.numberOfYears()));
             assertEquals(testCaseData.expectedMonthlyPayment(), actual);
           }
         });
@@ -33,10 +34,9 @@ public class MortgageCalculatorTest {
     var monthlyMortgagePaymentTestData = new ArrayList<MonthlyMortgagePaymentTestData>();
 
     monthlyMortgagePaymentTestData.add(
-        new MonthlyMortgagePaymentTestData(360_000.0, 7.5, 30, 2_547.0));
-    monthlyMortgagePaymentTestData.add(
-        new MonthlyMortgagePaymentTestData(360_000.0, 5, 30, 1_938.0));
-    monthlyMortgagePaymentTestData.add(new MonthlyMortgagePaymentTestData(176_000.0, 4, 30, 841.0));
+        new MonthlyMortgagePaymentTestData(360_000.0, 7.5, 30, 2_547));
+    monthlyMortgagePaymentTestData.add(new MonthlyMortgagePaymentTestData(360_000.0, 5, 30, 1_938));
+    monthlyMortgagePaymentTestData.add(new MonthlyMortgagePaymentTestData(176_000.0, 4, 30, 841));
     monthlyMortgagePaymentTestData.add(
         new MonthlyMortgagePaymentTestData(1_000_000, 12, 10, 14_333));
 
