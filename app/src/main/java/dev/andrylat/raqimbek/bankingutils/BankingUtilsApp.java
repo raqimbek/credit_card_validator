@@ -8,9 +8,6 @@ import java.util.stream.Collectors;
 public class BankingUtilsApp {
   private static final CommandLineUserInteraction commandLineUserInteraction =
       new CommandLineUserInteraction(new Scanner(System.in), System.out);
-  private static final BankingService<PaymentSystem, String> paymentSystemDeterminer =
-      new PaymentSystemDeterminer();
-  private static final BankingService<Long, Double> mortgageCalculator = new MortgageCalculator();
 
   public static void main(String[] args) {
     run();
@@ -99,12 +96,12 @@ public class BankingUtilsApp {
   public static List<BankingServiceinfo> getBankingServiceInfoList() {
     return List.of(
         new BankingServiceinfo(
-            mortgageCalculator,
+            new MortgageCalculator(),
             new DialogValidatorHolder(
                 new MortgageCalculatorDialog(commandLineUserInteraction),
                 new MortgageInputValidator())),
         new BankingServiceinfo(
-            paymentSystemDeterminer,
+            new PaymentSystemDeterminer(),
             new DialogValidatorHolder(
                 new CardValidatorDialog(commandLineUserInteraction), new CardValidator())));
   }
