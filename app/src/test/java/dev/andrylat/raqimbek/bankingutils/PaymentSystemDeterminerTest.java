@@ -36,6 +36,6 @@ public class PaymentSystemDeterminerTest {
   }
 
   private String getPaymentSystem(String cardNumber) {
-    return paymentSystemDeterminer.run(List.of(cardNumber)).toString();
+    return paymentSystemDeterminer.determinePaymentSystem(List.of(cardNumber)).toString();
   }
 }

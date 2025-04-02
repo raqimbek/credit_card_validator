@@ -4,10 +4,11 @@ import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-public class PaymentSystemDeterminer implements BankingService<PaymentSystem, String> {
+public class PaymentSystemDeterminer {
   @NonNull
-  public PaymentSystem run(@NonNull List<String> inputList) {
+  public Optional<PaymentSystem> determinePaymentSystem(@NonNull List<String> inputList) {
     var cardNumber = inputList.getFirst();
 
     return Arrays.stream(PaymentSystem.values())
@@ -15,7 +16,6 @@ public class PaymentSystemDeterminer implements BankingService<PaymentSystem, St
             p ->
                 p.getPrefixes().stream()
                     .anyMatch(prefix -> cardNumber.startsWith(prefix.toString())))
-        .findFirst()
-        .get();
+        .findFirst();
   }
 }

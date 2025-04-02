@@ -4,12 +4,12 @@ import lombok.NonNull;
 
 import java.util.List;
 
-public class MortgageCalculator implements BankingService<Long, Double> {
+public class MortgageCalculator {
   @NonNull
-  public Long run(@NonNull List<Double> inputList) {
-    var borrowedAmount = inputList.get(0);
-    var annualInterestRate = inputList.get(1);
-    var numberOfYears = inputList.get(2);
+  public Long calculateMonthlyMortgagePayment(@NonNull List<String> inputList) {
+    var borrowedAmount = Double.valueOf(inputList.get(0));
+    var annualInterestRate = Double.valueOf(inputList.get(1));
+    var numberOfYears = Double.valueOf(inputList.get(2));
     annualInterestRate /= 100;
 
     var payBackForEveryCurrencyUnit =

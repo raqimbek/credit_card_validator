@@ -1,11 +1,5 @@
 package dev.andrylat.raqimbek.bankingutils;
 
-import lombok.NonNull;
-
-import java.util.List;
-
 public interface Dialog {
-
-  @NonNull
-  List<String> prompt();
+  void run();
 }
