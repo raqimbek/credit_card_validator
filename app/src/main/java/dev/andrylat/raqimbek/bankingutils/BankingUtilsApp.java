@@ -72,7 +72,7 @@ public class BankingUtilsApp {
     return bankingServiceMap.get(selectedBankingService);
   }
 
-  public static boolean isValidBankingServiceIndex(
+  private static boolean isValidBankingServiceIndex(
       @NonNull String input, @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
     // Regex pattern to match a non-negative integer
     var regex = "^(0|[1-9]\\d*)$";
@@ -80,7 +80,7 @@ public class BankingUtilsApp {
   }
 
   @NonNull
-  public static Optional<Map<Integer, BankingServiceinfo>> getBankingServiceMap() {
+  private static Optional<Map<Integer, BankingServiceinfo>> getBankingServiceMap() {
     var bankingServiceMap = new HashMap<Integer, BankingServiceinfo>();
     var bankingServiceInfoList = getBankingServiceInfoList();
 
@@ -92,7 +92,7 @@ public class BankingUtilsApp {
   }
 
   @NonNull
-  public static List<BankingServiceinfo> getBankingServiceInfoList() {
+  private static List<BankingServiceinfo> getBankingServiceInfoList() {
     return List.of(
         new BankingServiceinfo(
             new MortgageCalculator(),
@@ -105,7 +105,7 @@ public class BankingUtilsApp {
                 new CardValidatorDialog(commandLineUserInteraction), new CardValidator())));
   }
 
-  public static boolean populateBankingServiceMap(
+  private static boolean populateBankingServiceMap(
       @NonNull Map<Integer, @NonNull BankingServiceinfo> bankingServiceMap,
       @NonNull List<BankingServiceinfo> bankingServiceList) {
     for (var i = 0; i < bankingServiceList.size(); i++) {
@@ -115,7 +115,7 @@ public class BankingUtilsApp {
     return true;
   }
 
-  public static boolean putDataInBankingServiceMap(
+  private static boolean putDataInBankingServiceMap(
       @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap,
       int bankingServiceIndex,
       @NonNull BankingServiceinfo bankingServiceInfo) {
