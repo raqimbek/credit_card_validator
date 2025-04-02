@@ -2,8 +2,8 @@ package dev.andrylat.raqimbek.bankingutils;
 
 import lombok.NonNull;
 
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BankingUtilsApp {
   private static final CommandLineUserInteraction commandLineUserInteraction =
@@ -11,26 +11,19 @@ public class BankingUtilsApp {
   private static final BankingService<PaymentSystem, String> paymentSystemDeterminer =
       new PaymentSystemDeterminer();
   private static final BankingService<Long, Double> mortgageCalculator = new MortgageCalculator();
-  private static final Map<Integer, BankingServiceinfo> bankingServiceMap =
-      Map.of(
-          0,
-          new BankingServiceinfo(
-              paymentSystemDeterminer,
-              new DialogValidatorHolder(
-                  new CardValidatorDialog(commandLineUserInteraction), new CardValidator())),
-          1,
-          new BankingServiceinfo(
-              mortgageCalculator,
-              new DialogValidatorHolder(
-                  new MortgageCalculatorDialog(commandLineUserInteraction),
-                  new MortgageInputValidator())));
 
   public static void main(String[] args) {
     run();
   }
 
   private static void run() {
-    handleSelectedBankingServiceInput(selectBankingService());
+    var bankingServiceMapOptional = getBankingServiceMap();
+
+    if (bankingServiceMapOptional.isPresent()) {
+      var bankingServiceMap = bankingServiceMapOptional.get();
+
+      handleSelectedBankingServiceInput(selectBankingService(bankingServiceMap));
+    }
   }
 
   private static void handleSelectedBankingServiceInput(
@@ -47,7 +40,8 @@ public class BankingUtilsApp {
     }
   }
 
-  private static BankingServiceinfo selectBankingService() {
+  private static BankingServiceinfo selectBankingService(
+      @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
 
     StringBuilder greetingMessage =
         new StringBuilder("Hello. Please type the index of the service you need:\n");
@@ -65,24 +59,77 @@ public class BankingUtilsApp {
     commandLineUserInteraction.write(greetingMessage.toString());
 
     var selectedService = -1;
+    var onlyNumberErrorMessage = "Please write only a number representing an index of a service.";
 
     do {
+
       try {
         selectedService = Integer.parseInt(commandLineUserInteraction.read());
       } catch (NumberFormatException e) {
-        displayOnlyNumberError();
+        commandLineUserInteraction.write(onlyNumberErrorMessage);
       }
       if (!bankingServiceMap.containsKey(selectedService)) {
-        displayOnlyNumberError();
+        commandLineUserInteraction.write(onlyNumberErrorMessage);
       }
     } while (selectedService < 0);
 
     return bankingServiceMap.get(selectedService);
   }
 
-  private static void displayOnlyNumberError() {
-    commandLineUserInteraction.write(
-        "Please write only a number representing an index of a service.");
+  public static boolean isValidBankingServiceIndex(
+      @NonNull String input, @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
+    // Regex pattern to match a non-negative integer
+    var regex = "^(0|[1-9]\\d*)$";
+    return input.matches(regex) && bankingServiceMap.containsKey(Integer.parseInt(input));
+  }
+
+  @NonNull
+  public static Optional<Map<Integer, BankingServiceinfo>> getBankingServiceMap() {
+    var bankingServiceMap = new HashMap<Integer, BankingServiceinfo>();
+    var bankingServiceInfoList = getBankingServiceInfoList();
+
+    if (populateBankingServiceMap(bankingServiceMap, bankingServiceInfoList)) {
+      return Optional.of(bankingServiceMap);
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  @NonNull
+  public static List<BankingServiceinfo> getBankingServiceInfoList() {
+    return List.of(
+        new BankingServiceinfo(
+            mortgageCalculator,
+            new DialogValidatorHolder(
+                new MortgageCalculatorDialog(commandLineUserInteraction),
+                new MortgageInputValidator())),
+        new BankingServiceinfo(
+            paymentSystemDeterminer,
+            new DialogValidatorHolder(
+                new CardValidatorDialog(commandLineUserInteraction), new CardValidator())));
+  }
+
+  public static boolean populateBankingServiceMap(
+      @NonNull Map<Integer, @NonNull BankingServiceinfo> bankingServiceMap,
+      @NonNull List<BankingServiceinfo> bankingServiceList) {
+    for (var i = 0; i < bankingServiceList.size(); i++) {
+      if (!putDataInBankingServiceMap(bankingServiceMap, i, bankingServiceList.get(i)))
+        return false;
+    }
+    return true;
+  }
+
+  public static boolean putDataInBankingServiceMap(
+      @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap,
+      int bankingServiceIndex,
+      @NonNull BankingServiceinfo bankingServiceInfo) {
+    try {
+      bankingServiceMap.put(bankingServiceIndex, bankingServiceInfo);
+      return true;
+    } catch (IllegalArgumentException | NullPointerException | ClassCastException e) {
+      commandLineUserInteraction.write(e.getMessage());
+      return false;
+    }
   }
 
   //
