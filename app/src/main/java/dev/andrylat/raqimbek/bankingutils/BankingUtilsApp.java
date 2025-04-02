@@ -3,7 +3,6 @@ package dev.andrylat.raqimbek.bankingutils;
 import lombok.NonNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BankingUtilsApp {
   private static final CommandLineUserInteraction commandLineUserInteraction =
