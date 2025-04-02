@@ -13,36 +13,26 @@ public class BankingUtilsApp {
   }
 
   private static void run() {
-    var bankingServiceMapOptional = getBankingServiceMap();
+    var dialogMapOptional = getDialogMap();
 
-    if (bankingServiceMapOptional.isPresent()) {
-      var bankingServiceMap = bankingServiceMapOptional.get();
+    if (dialogMapOptional.isPresent()) {
+      var dialogMap = dialogMapOptional.get();
 
-      handleSelectedBankingServiceInput(selectBankingService(bankingServiceMap));
+      handleSelectedBankingServiceInput(selectBankingService(dialogMap));
     }
   }
 
-  private static void handleSelectedBankingServiceInput(
-      @NonNull BankingServiceinfo bankingServiceinfo) {
-    var dialogValidatorHolder = bankingServiceinfo.dialogValidatorHolder();
-    var inputList = dialogValidatorHolder.dialog().prompt();
-    var validationInfo = dialogValidatorHolder.validator().validate(inputList);
-
-    if (!validationInfo.isValid()) {
-      commandLineUserInteraction.writeAll(validationInfo.errors());
-    } else {
-      var result = bankingServiceinfo.bankingService().run(inputList);
-      commandLineUserInteraction.write(result.toString());
-    }
+  private static void handleSelectedBankingServiceInput(@NonNull Dialog dialog) {
+    dialog.run();
   }
 
   @NonNull
   private static String getBankingServiceSelectionPromptMessage(
-      @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
+      @NonNull Map<Integer, Dialog> dialogMap) {
     StringBuilder greetingMessage =
         new StringBuilder("Hello. Please type the index of the service you need:\n");
 
-    bankingServiceMap.entrySet().stream()
+    dialogMap.entrySet().stream()
         .sorted(Map.Entry.comparingByKey())
         .forEach(
             e ->
@@ -56,10 +46,9 @@ public class BankingUtilsApp {
     return greetingMessage.toString();
   }
 
-  private static BankingServiceinfo selectBankingService(
-      @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
+  private static Dialog selectBankingService(@NonNull Map<Integer, Dialog> dialogMap) {
 
-    var promptMessage = getBankingServiceSelectionPromptMessage(bankingServiceMap);
+    var promptMessage = getBankingServiceSelectionPromptMessage(dialogMap);
 
     commandLineUserInteraction.write(promptMessage);
 
@@ -68,7 +57,7 @@ public class BankingUtilsApp {
     do {
       var input = commandLineUserInteraction.read();
 
-      if (!isValidBankingServiceIndex(input, bankingServiceMap)) {
+      if (!isValidBankingServiceIndex(input, dialogMap)) {
         commandLineUserInteraction.write(
             "Please write only a number representing an index of a service.");
       }
@@ -77,58 +66,47 @@ public class BankingUtilsApp {
 
     } while (selectedBankingService < 0);
 
-    return bankingServiceMap.get(selectedBankingService);
+    return dialogMap.get(selectedBankingService);
   }
 
   private static boolean isValidBankingServiceIndex(
-      @NonNull String input, @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
+      @NonNull String input, @NonNull Map<Integer, Dialog> dialogMap) {
     // Regex pattern to match a non-negative integer
     var regex = "^(0|[1-9]\\d*)$";
-    return input.matches(regex) && bankingServiceMap.containsKey(Integer.parseInt(input));
+    return input.matches(regex) && dialogMap.containsKey(Integer.parseInt(input));
   }
 
   @NonNull
-  private static Optional<Map<Integer, BankingServiceinfo>> getBankingServiceMap() {
-    var bankingServiceMap = new HashMap<Integer, BankingServiceinfo>();
-    var bankingServiceInfoList = getBankingServiceInfoList();
+  private static Optional<Map<Integer, Dialog>> getDialogMap() {
+    var dialogMap = new HashMap<Integer, Dialog>();
+    var dialogList = getDialogList();
 
-    if (populateBankingServiceMap(bankingServiceMap, bankingServiceInfoList)) {
-      return Optional.of(bankingServiceMap);
+    if (populateDialogMap(dialogMap, dialogList)) {
+      return Optional.of(dialogMap);
     } else {
       return Optional.empty();
     }
   }
 
   @NonNull
-  private static List<BankingServiceinfo> getBankingServiceInfoList() {
+  private static List<Dialog> getDialogList() {
     return List.of(
-        new BankingServiceinfo(
-            new MortgageCalculator(),
-            new DialogValidatorHolder(
-                new MortgageCalculatorDialog(commandLineUserInteraction),
-                new MortgageInputValidator())),
-        new BankingServiceinfo(
-            new PaymentSystemDeterminer(),
-            new DialogValidatorHolder(
-                new CardValidatorDialog(commandLineUserInteraction), new CardValidator())));
+        new MortgageCalculatorDialog(commandLineUserInteraction),
+        new CardValidatorDialog(commandLineUserInteraction));
   }
 
-  private static boolean populateBankingServiceMap(
-      @NonNull Map<Integer, @NonNull BankingServiceinfo> bankingServiceMap,
-      @NonNull List<BankingServiceinfo> bankingServiceList) {
-    for (var i = 0; i < bankingServiceList.size(); i++) {
-      if (!putDataInBankingServiceMap(bankingServiceMap, i, bankingServiceList.get(i)))
-        return false;
+  private static boolean populateDialogMap(
+      @NonNull Map<Integer, @NonNull Dialog> dialogMap, @NonNull List<Dialog> dialogList) {
+    for (var i = 0; i < dialogList.size(); i++) {
+      if (!putDataInDialogMap(dialogMap, i, dialogList.get(i))) return false;
     }
     return true;
   }
 
-  private static boolean putDataInBankingServiceMap(
-      @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap,
-      int bankingServiceIndex,
-      @NonNull BankingServiceinfo bankingServiceInfo) {
+  private static boolean putDataInDialogMap(
+      @NonNull Map<Integer, Dialog> dialogMapMap, int bankingServiceIndex, @NonNull Dialog dialog) {
     try {
-      bankingServiceMap.put(bankingServiceIndex, bankingServiceInfo);
+      dialogMapMap.put(bankingServiceIndex, dialog);
       return true;
     } catch (IllegalArgumentException | NullPointerException | ClassCastException e) {
       commandLineUserInteraction.write(e.getMessage());
