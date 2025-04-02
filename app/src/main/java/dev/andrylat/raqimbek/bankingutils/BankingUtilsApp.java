@@ -36,9 +36,9 @@ public class BankingUtilsApp {
     }
   }
 
-  private static BankingServiceinfo selectBankingService(
+  @NonNull
+  private static String getBankingServiceSelectionPromptMessage(
       @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
-
     StringBuilder greetingMessage =
         new StringBuilder("Hello. Please type the index of the service you need:\n");
 
@@ -53,7 +53,15 @@ public class BankingUtilsApp {
                     .append(e.getValue())
                     .append("\n"));
 
-    commandLineUserInteraction.write(greetingMessage.toString());
+    return greetingMessage.toString();
+  }
+
+  private static BankingServiceinfo selectBankingService(
+      @NonNull Map<Integer, BankingServiceinfo> bankingServiceMap) {
+
+    var promptMessage = getBankingServiceSelectionPromptMessage(bankingServiceMap);
+
+    commandLineUserInteraction.write(promptMessage);
 
     var selectedBankingService = -1;
 
