@@ -30,7 +30,7 @@ public class BankingUtilsApp {
   }
 
   private static void run() {
-    handleSelectedBankingServiceInput(greet());
+    handleSelectedBankingServiceInput(selectBankingService());
   }
 
   private static void handleSelectedBankingServiceInput(
@@ -47,7 +47,7 @@ public class BankingUtilsApp {
     }
   }
 
-  private static BankingServiceinfo greet() {
+  private static BankingServiceinfo selectBankingService() {
 
     StringBuilder greetingMessage =
         new StringBuilder("Hello. Please type the index of the service you need:\n");
