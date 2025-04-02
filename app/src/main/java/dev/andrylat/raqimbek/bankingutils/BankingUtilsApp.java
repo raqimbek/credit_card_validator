@@ -54,22 +54,21 @@ public class BankingUtilsApp {
 
     commandLineUserInteraction.write(greetingMessage.toString());
 
-    var selectedService = -1;
-    var onlyNumberErrorMessage = "Please write only a number representing an index of a service.";
+    var selectedBankingService = -1;
 
     do {
+      var input = commandLineUserInteraction.read();
 
-      try {
-        selectedService = Integer.parseInt(commandLineUserInteraction.read());
-      } catch (NumberFormatException e) {
-        commandLineUserInteraction.write(onlyNumberErrorMessage);
+      if (!isValidBankingServiceIndex(input, bankingServiceMap)) {
+        commandLineUserInteraction.write(
+            "Please write only a number representing an index of a service.");
       }
-      if (!bankingServiceMap.containsKey(selectedService)) {
-        commandLineUserInteraction.write(onlyNumberErrorMessage);
-      }
-    } while (selectedService < 0);
 
-    return bankingServiceMap.get(selectedService);
+      selectedBankingService = Integer.parseInt(input);
+
+    } while (selectedBankingService < 0);
+
+    return bankingServiceMap.get(selectedBankingService);
   }
 
   public static boolean isValidBankingServiceIndex(
