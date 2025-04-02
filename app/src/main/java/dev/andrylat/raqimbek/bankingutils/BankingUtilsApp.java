@@ -43,7 +43,8 @@ public class BankingUtilsApp {
         new StringBuilder("Hello. Please type the index of the service you need:\n");
 
     bankingServiceMap.entrySet().stream()
-        .forEachOrdered(
+        .sorted(Map.Entry.comparingByKey())
+        .forEach(
             e ->
                 greetingMessage
                     .append("[")
