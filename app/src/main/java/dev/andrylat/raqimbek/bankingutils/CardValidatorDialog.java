@@ -15,11 +15,18 @@ public class CardValidatorDialog implements Dialog {
     var inputList = promptForCardNumber();
     var validationInfo = validator.validate(inputList);
     if (validationInfo.isValid()) {
-      var paymentSystem = paymentSystemDeterminer.determinePaymentSystem(inputList);
-      var message =
-          new StringBuilder("Card number is valid. Payment System: ")
-              .append(paymentSystem)
-              .toString();
+      var paymentSystemOptional = paymentSystemDeterminer.determinePaymentSystem(inputList);
+      String message;
+
+      message =
+          paymentSystemOptional
+              .map(
+                  paymentSystem ->
+                      new StringBuilder("Card number is valid. Payment System: ")
+                          .append(paymentSystem)
+                          .toString())
+              .orElse("Something went wrong... Payment system could not be determined.");
+
       userInteraction.write(message);
     } else {
       userInteraction.write("Card number is not valid. Errors:");
