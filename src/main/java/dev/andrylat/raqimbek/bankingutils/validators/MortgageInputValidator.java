@@ -39,7 +39,8 @@ public class MortgageInputValidator implements Validator {
   }
 
   private static boolean isPositiveDecimalNumber(String number) {
-    return number.matches("^((\\d+\\.\\d+)|(\\.\\d+))$");
+    final var POSITIVE_DECIMAL_PATTERN = "^((\\d+\\.\\d+)|(\\.\\d+)|(\\d+))$";
+    return number.matches(POSITIVE_DECIMAL_PATTERN);
   }
 
   private static boolean greaterThanMinimumBorrowedAmount(String borrowedAmount) {
