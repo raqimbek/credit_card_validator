@@ -1,0 +1,48 @@
+package dev.andrylat.raqimbek.bankingutils.validators;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class MortgageInputValidator implements Validator {
+  private static final double MINIMUM_BORROWED_AMOUNT = 1.0;
+
+  public MortgageInputValidationInfo validate(List<String> inputList) {
+    var borrowedAmount = inputList.get(0);
+    var annualInterestRate = inputList.get(1);
+    var numberOfYears = inputList.get(2);
+
+    var errors = generateErrors(borrowedAmount, annualInterestRate, numberOfYears);
+
+    return new MortgageInputValidationInfo(errors.isEmpty(), errors);
+  }
+
+  private List<String> generateErrors(String... input) {
+    var errors = new ArrayList<String>();
+    var borrowedAmount = input[0];
+    var annualInterestRate = input[1];
+    var numberOfYears = input[2];
+
+    if (!isPositiveDecimalNumbers(borrowedAmount, annualInterestRate, numberOfYears)) {
+      errors.add("Only positive decimal numbers are allowed.");
+    }
+
+    if (!greaterThanMinimumBorrowedAmount(borrowedAmount)) {
+      errors.add("Minimum borrowed amount must be greater than or equal to 1.");
+    }
+
+    return errors;
+  }
+
+  private static boolean isPositiveDecimalNumbers(String... numbers) {
+    return Arrays.stream(numbers).allMatch(MortgageInputValidator::isPositiveDecimalNumber);
+  }
+
+  private static boolean isPositiveDecimalNumber(String number) {
+    return number.matches("^((\\d+\\.\\d+)|(\\.\\d+))$");
+  }
+
+  private static boolean greaterThanMinimumBorrowedAmount(String borrowedAmount) {
+    return Integer.parseInt(borrowedAmount) >= MINIMUM_BORROWED_AMOUNT;
+  }
+}
