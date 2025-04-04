@@ -15,7 +15,7 @@ public class CardValidatorDialog implements Dialog {
     var paymentSystemDeterminer = new PaymentSystemDeterminer();
     var validator = new CardValidator();
     var inputList = promptForCardNumber();
-    var validationInfo = validator.validate(inputList);
+    var validationInfo = validator.validate(List.of(inputList));
 
     if (validationInfo.isValid()) {
       var paymentSystemOptional = paymentSystemDeterminer.determinePaymentSystem(inputList);
@@ -35,9 +35,9 @@ public class CardValidatorDialog implements Dialog {
     }
   }
 
-  private List<String> promptForCardNumber() {
+  private String promptForCardNumber() {
     String promptMessage = "Enter card number for validation:";
     userInteraction.write(promptMessage);
-    return List.of(userInteraction.read());
+    return userInteraction.read();
   }
 }
