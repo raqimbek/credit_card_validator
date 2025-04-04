@@ -29,7 +29,7 @@ public class CardValidatorDialog implements Dialog {
               .orElse("Something went wrong... Payment system could not be determined.");
 
       userInteraction.write(message);
-    } else {
+    } else if (validationInfo.errors() != null) {
       userInteraction.write("Card number is not valid. Errors:");
       userInteraction.writeAll(validationInfo.errors());
     }

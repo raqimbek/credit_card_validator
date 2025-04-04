@@ -22,7 +22,7 @@ public class MortgageCalculatorDialog implements Dialog {
       var message =
           new StringBuilder("Your monthly mortgage payment is ").append(monthlyPayment).toString();
       userInteraction.write(message);
-    } else {
+    } else if (validationInfo.errors() != null) {
       userInteraction.write("Input data is incorrect. Errors:");
       userInteraction.writeAll(validationInfo.errors());
     }
