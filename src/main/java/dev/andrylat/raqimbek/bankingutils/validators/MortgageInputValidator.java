@@ -8,13 +8,17 @@ public class MortgageInputValidator implements Validator {
   private static final double MINIMUM_BORROWED_AMOUNT = 1.0;
 
   public MortgageInputValidationInfo validate(List<String> inputList) {
-    var borrowedAmount = inputList.get(0);
-    var annualInterestRate = inputList.get(1);
-    var numberOfYears = inputList.get(2);
+    if (inputList != null && !inputList.isEmpty()) {
+      var borrowedAmount = inputList.get(0);
+      var annualInterestRate = inputList.get(1);
+      var numberOfYears = inputList.get(2);
 
-    var errors = generateErrors(borrowedAmount, annualInterestRate, numberOfYears);
+      var errors = generateErrors(borrowedAmount, annualInterestRate, numberOfYears);
 
-    return new MortgageInputValidationInfo(errors.isEmpty(), errors);
+      return new MortgageInputValidationInfo(errors.isEmpty(), errors);
+    } else {
+      return new MortgageInputValidationInfo(false, null);
+    }
   }
 
   private List<String> generateErrors(String... input) {
