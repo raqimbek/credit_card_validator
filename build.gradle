@@ -1,0 +1,52 @@
+plugins {
+    id 'application'
+    id("com.diffplug.spotless") version "7.0.2"
+    id("io.freefair.lombok") version "8.13.1"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.guava
+
+    testImplementation libs.junit.jupiter
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.36'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+application {
+    mainClass = 'dev.andrylat.raqimbek.bankingutils.BankingUtilsApp'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+}
+
+run {
+    standardInput = System.in
+}
+
+spotless.java {
+    googleJavaFormat()
+    targetExclude("build/**")
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
